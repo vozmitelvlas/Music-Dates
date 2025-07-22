@@ -1,0 +1,6 @@
+export * from "./header/header.jsx"
+export * from "./img/img.jsx"
+export * from "./input/input.jsx"
+export * from "./footer/footer.jsx"
+export * from "./button/button.jsx"
+export * from "./auth-form-error/auth-form-error.js"

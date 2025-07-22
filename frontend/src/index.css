@@ -5,14 +5,16 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
-  background-image: url("/background.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
+  /*background: #fff9f9;*/
+  background: #ececec;
 }
 
 html, body, #root {
   height: 100%;
+}
+
+span{
+  color: #DF1212;
 }
 
 a {
