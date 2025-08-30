@@ -6,9 +6,12 @@ import {useForm} from "react-hook-form";
 import {apiClient} from "../../utils";
 import {useState} from "react";
 import styled from "styled-components";
+import {useDispatch} from "react-redux";
+import {loginUserAsync} from "../../actions/index.js";
 
 const LoginContainer = ({className}) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [serverError, setServerError] = useState("")
     const {register, reset, handleSubmit, formState} = useForm({
         defaultValues: {
@@ -19,8 +22,8 @@ const LoginContainer = ({className}) => {
     })
 
     const onSubmit = (formState) => {
-        apiClient('/users', 'POST', formState).then((res) => {
-            console.log(res)
+        dispatch(loginUserAsync(formState)).then(() => {
+            navigate("/")
         }).catch((error) => {
             setServerError(error.message)
         })
@@ -55,7 +58,6 @@ const LoginContainer = ({className}) => {
         </div>
     )
 }
-
 
 
 export const Login = styled(LoginContainer)`

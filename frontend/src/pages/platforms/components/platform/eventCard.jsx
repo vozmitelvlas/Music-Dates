@@ -47,18 +47,6 @@ export const EventCard = styled(EventCardContainer)`
     display: block;
   }
 
-  button {
-    background-color: #fff;
-    color: #000;
-    border: 2px solid #DF1212;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  button:hover {
-    background-color: #DF1212;
-    color: #fff;
-  }
-
   .title:hover {
     cursor: pointer;
     text-decoration: underline;

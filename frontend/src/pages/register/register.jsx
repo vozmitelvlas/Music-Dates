@@ -6,8 +6,11 @@ import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {useState} from "react";
 import styled from "styled-components";
+import {useDispatch} from "react-redux";
+import {registerUserAsync} from "../../actions/index.js";
 
 const RegisterContainer = ({className}) => {
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const [serverError, setServerError] = useState("")
     const {register, handleSubmit, formState} = useForm({
@@ -22,8 +25,8 @@ const RegisterContainer = ({className}) => {
     })
 
     const onSubmit = (formState) => {
-        apiClient('/users', 'POST', formState).then((res) => {
-            console.log(res)
+        dispatch(registerUserAsync(formState)).then(() => {
+            navigate("/")
         }).catch((error) => {
             setServerError(error.message)
         })

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {useEffect, useState} from "react";
 import {EventCard} from "./components";
 import {apiClient} from "../../utils";
+import {useSelector} from "react-redux";
 
 const PlatformsContainer = ({className}) => {
     const [platforms, setPlatforms] = useState([])

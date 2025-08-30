@@ -1,47 +1,55 @@
-import {Img} from "../../../img/img.jsx"
-import styled from "styled-components";
+import {Popup} from "./components";
 import {useNavigate} from "react-router-dom";
+import {Img} from "../../../img/img.jsx"
+import {useSelector} from "react-redux";
+import styled from "styled-components";
+import {Button} from "../../../button/button.jsx";
 
 const RightPanelContainer = ({className}) => {
     const navigate = useNavigate()
+    const userName = useSelector(state => state.user.name)
 
     return (
         <div className={className}>
-            <div>
-                <div className="circle"></div>
-                <div className="name">Имя</div>
-            </div>
-            <div className="auth" onClick={() => navigate("login")}>
-                <Img src="/login.svg" heiht="30px" width="30px" />
-                <div className="name">Войти</div>
-            </div>
+            {userName ? (
+                <div>
+                    <div className="circle"></div>
+                    <div className="name">{userName}</div>
+                </div>
+            ) : (
+                <Popup position="center" width="300px" trigger={
+                    <div className="auth" onClick={() => navigate("login")}>
+                        <div className="circle"></div>
+                        <div>Vlas</div>
+                    </div>
+                }>
+                    <div className="for-client">
+                        <div className="header">
+                            <div className="circle"></div>
+                            <div>Vlas Vozmitel</div>
+                        </div>
+                        <Button>Профиль</Button>
+                        <Button>Выйти</Button>
+                    </div>
+                </Popup>
+            )}
             <div>
                 <Img src="/location.svg"/>
                 <div className="location">Местоположение</div>
             </div>
-            <div className='cont'>
-                <nav>
-                    <ul className="cf">
-                        <li>
-                            <Img className="dropdown" src="/menu.svg"/>
-                            <ul>
-                                <li><a href="#">Профиль</a></li>
-                                <li><a href="#">Категории</a></li>
-                                <li><a href="#">Пользователи</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-                <Img
-                    src="/exit.svg"
-                    width="30px"
-                    height="30px"
-                    margin="0 0 0 10px"
-                    onClick={() => navigate("/login")}
-                />
-            </div>
+            <Popup position="right" trigger={<Img src="/menu.svg"/>}>
+                <ul className="dropdown-list">
+                    <li><a href="#">Профиль</a></li>
+                    <li><a href="#">Категории</a></li>
+                    <li><a href="#">Пользователи</a></li>
+                </ul>
+            </Popup>
         </div>
     )
+}
+
+
+export const DropDown = ({children}) => {
 }
 
 export const RightPanel = styled(RightPanelContainer)`
@@ -50,14 +58,36 @@ export const RightPanel = styled(RightPanelContainer)`
   gap: 50px;
   margin: 0 30px;
 
+  .for-client {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+    margin: 10px;
+    gap: 10px;
+    background-color: #FFCCCC;
+    border-radius: 6px;
+
+    .header {
+      display: flex;
+      width: 100%;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  }
+
   .auth {
-    gap: 5px;
+    display: flex;
+    text-decoration: underline;
+    cursor: pointer;
   }
 
   div {
     display: flex;
     align-items: center;
-    cursor: pointer;
   }
 
   .circle {
@@ -68,70 +98,37 @@ export const RightPanel = styled(RightPanelContainer)`
     margin-right: 5px;
   }
 
-  .name {
-    text-decoration: underline;
-  }
-
   .location {
     text-decoration: underline;
+    cursor: pointer;
   }
 
-  nav ul {
+  ul {
     list-style: none;
     margin: 0;
     padding: 0;
     width: 100%;
   }
 
-  nav li {
+  li {
     float: left;
     margin: 0;
     padding: 0;
     position: relative;
   }
 
-  nav a {
-    color: #444;
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
     width: 200px;
-    display: block;
-    font: normal 13px/50px Arial, Helvetica, sans-serif;
+    height: 45px;
     padding: 0 25px;
-    text-align: center;
-    text-decoration: none;
     transition: all .25s ease;
   }
 
-
-  nav li:hover a {
-    background: #fff;
-    color: #000000;
-  }
-
-  nav li ul {
-    float: left;
-    left: -118px;
-    width: 100%;
-    opacity: 0;
-    position: absolute;
-    top: 35px;
-    visibility: hidden;
-    z-index: 1;
-    transition: all .25s ease;
-  }
-
-  nav li:hover ul {
-    opacity: 1;
-    top: 35px;
-    visibility: visible;
-  }
-
-  nav li ul li {
-    float: none;
-    width: 100%;
-  }
-
-  nav li ul a:hover {
+  .dropdown-list a:hover {
     background: #FFCCCC;
   }
-
 `
