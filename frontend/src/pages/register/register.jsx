@@ -62,7 +62,7 @@ const RegisterContainer = ({className}) => {
                         <label htmlFor="ciy">
                             <span>* </span>Ваш город
                         </label>
-                        <Input name="city" type="text" {...register('cite')}/>
+                        <Input name="city" type="text" {...register('city')}/>
                     </div>
                     <div>
                         <label htmlFor="password">

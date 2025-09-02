@@ -1,10 +1,11 @@
-import {Category} from "./components/index.js";
+import {Category} from "./components";
 import styled from "styled-components";
+import {H1} from "../../components";
 
 export const CategoriesContainer = ({className}) => {
     return (
         <div className={className}>
-            <h1>Категории</h1>
+            <H1>Категории</H1>
             <div className="list">
                 <Category src="/lessons.jpg" to={"/lessons"}>Уроки музыки</Category>
                 <Category src="/parties.jpg" to={"/parties"}>Квартирники</Category>
@@ -17,9 +18,9 @@ export const CategoriesContainer = ({className}) => {
 export const Categories = styled(CategoriesContainer)`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 30px;
-
+  width: 1350px;
+  margin: 50px 0;
+  
   .title {
     font-size: 32px;
     font-weight: bold;
@@ -27,7 +28,6 @@ export const Categories = styled(CategoriesContainer)`
 
   .list {
     display: flex;
-    width: 100%;
     justify-content: space-between;
     padding: 0 30px;
   }

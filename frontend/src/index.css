@@ -3,18 +3,24 @@
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
-  /*background: #fff9f9;*/
-  background: #ececec;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background: #330000;
+  background: linear-gradient(90deg,rgba(51, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 50%, rgba(51, 0, 0, 1) 100%);
 }
 
 html, body, #root {
   height: 100%;
+  margin: 0;
 }
 
 span{
   color: #DF1212;
+}
+
+p{
+  margin: 0 20px;
+  color: #4f4f4f;
+
 }
 
 a {

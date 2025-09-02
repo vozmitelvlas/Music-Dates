@@ -16,7 +16,8 @@ export const Category = styled(CategoryContainer)`
   align-items: center;
   font-size: 24px;
   text-decoration: underline;
-  padding: 15px;
+  width: 400px;
+  height: 515px;
   border-radius: 8px;
   background-color: #fff;
   cursor: pointer;

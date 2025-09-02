@@ -22,7 +22,7 @@ const FooterContainer = ({className}) => {
         <div className={className}>
             <div>
                 <div  className="email-header">
-                    <Img src="/email.svg" inactive/>
+                    <Img src="/email.svg" inactive icon/>
                     <div>E-mail</div>
                 </div>
                 <div className="email">music_dates@gmail.ru</div>
@@ -44,7 +44,7 @@ export const Footer = styled(FooterContainer)`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 120px;
+  height: 100px;
   padding: 20px 40px;
   background-color: #fff;
   box-shadow: 0 2px 17px #000;

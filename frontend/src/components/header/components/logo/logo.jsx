@@ -30,7 +30,7 @@ export const Logo = styled(LogoContainer)`
     position: absolute;
     font-size: 32px;
     font-weight: bold;
-    top: -30px;
+    top: -32px;
   }
 
   .second-line {

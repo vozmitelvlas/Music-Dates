@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {useEffect, useState} from "react";
 import {EventCard} from "./components";
 import {apiClient} from "../../utils";
-import {useSelector} from "react-redux";
+import {H1} from "../../components";
 
 const PlatformsContainer = ({className}) => {
     const [platforms, setPlatforms] = useState([])
@@ -17,19 +17,19 @@ const PlatformsContainer = ({className}) => {
 
     return (
         <div className={className}>
-            <h1>Музыкальные площадки в Санкт-Петербурге</h1>
-            <div className="special-panel">
+            <H1>Музыкальные площадки в Санкт-Петербурге</H1>
+            <div className="special-panel"></div>
 
-            </div>
             <div className="list">
-                {platforms.map(({title, address, time, price, id}) => (
+                {platforms.map(({title, address, time, price, id, image}) => (
                     <EventCard
                         key={id}
+                        id={id}
                         title={title}
                         address={address}
                         time={time}
                         price={price}
-                    />
+                        image={image}/>
                 ))}
             </div>
         </div>
@@ -37,10 +37,12 @@ const PlatformsContainer = ({className}) => {
 }
 
 export const Platforms = styled(PlatformsContainer)`
+  display: flex;
+  flex-direction: column;
+
   .list {
     display: flex;
     flex-wrap: wrap;
-    padding-bottom: 130px;
   }
 
   .special-panel {

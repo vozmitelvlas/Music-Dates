@@ -13,10 +13,10 @@ export const Search = styled(SearchContainer)`
   display: flex;
   position: relative;
   width: 800px;
-  
-  div{
+
+  img {
     position: absolute;
     right: 7px;
-    top: 3px;
+    top: 5px;
   }
 `

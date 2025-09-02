@@ -3,4 +3,5 @@ export const ACTION_TYPE = {
     CLOSE_MODAL: "CLOSE_MODAL",
     LOGOUT: "LOGOUT",
     SET_USER: "SET_USER",
+    SET_EVENT_DATA: "SET_EVENT_DATA",
 }

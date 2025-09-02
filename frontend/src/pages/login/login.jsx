@@ -63,8 +63,6 @@ const LoginContainer = ({className}) => {
 export const Login = styled(LoginContainer)`
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-
   padding: 15px;
   border-radius: 8px;
   height: 400px;

@@ -1,5 +1,5 @@
 import {Popup} from "./components";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Img} from "../../../img/img.jsx"
 import {useSelector} from "react-redux";
 import styled from "styled-components";
@@ -18,6 +18,7 @@ const RightPanelContainer = ({className}) => {
                 </div>
             ) : (
                 <Popup position="center" width="300px" trigger={
+                    // поменять на готовый компонент avatar-card
                     <div className="auth" onClick={() => navigate("login")}>
                         <div className="circle"></div>
                         <div>Vlas</div>
@@ -34,22 +35,19 @@ const RightPanelContainer = ({className}) => {
                 </Popup>
             )}
             <div>
-                <Img src="/location.svg"/>
+                <Img src="/location.svg" icon/>
                 <div className="location">Местоположение</div>
             </div>
             <Popup position="right" trigger={<Img src="/menu.svg"/>}>
                 <ul className="dropdown-list">
-                    <li><a href="#">Профиль</a></li>
-                    <li><a href="#">Категории</a></li>
-                    <li><a href="#">Пользователи</a></li>
+                    <li><Link href="#">Профиль</Link></li>
+                    <li><Link href="#">Категории</Link></li>
+                    <li><Link href="#">Пользователи</Link></li>
+                    <li><Link to="/new-event">Новое событие</Link></li>
                 </ul>
             </Popup>
         </div>
     )
-}
-
-
-export const DropDown = ({children}) => {
 }
 
 export const RightPanel = styled(RightPanelContainer)`

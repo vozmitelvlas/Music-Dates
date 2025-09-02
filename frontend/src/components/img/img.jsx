@@ -1,20 +1,17 @@
 import styled from "styled-components";
 
-const ImgContainer = ({src, className, inactive, ...props}) => {
+const ImgContainer = ({src, className, inactive, icon, ...props}) => {
     return (
-        <div className={className} {...props}>
-            <img src={src} alt={src.toString()}/>
-        </div>
+        <img src={src} {...props} className={className}/>
     )
 }
 
 export const Img = styled(ImgContainer)`
-  img {
-    width: ${({width = '24px'}) => width};
-    height: ${({height = '24px'}) => height};
-    margin: ${({margin = '0'}) => margin};
-    cursor: ${({inactive}) => (inactive ? 'default' : 'pointer')};
-    vertical-align: middle;
-    display: inline-block;
-  }
+  margin: ${({margin = '0'}) => margin};
+  cursor: ${({inactive}) => (inactive ? 'default' : 'pointer')};
+  width: ${({icon, width}) => (icon ? '24px' : width)};
+  height: ${({icon, height}) => (icon ? '24px' : height)};
+  vertical-align: middle;
+  display: inline-block;
+  
 `

@@ -1,1 +1,1 @@
-export * from "./platform/eventCard.jsx"
+export * from "./event-card/event-card.jsx"
