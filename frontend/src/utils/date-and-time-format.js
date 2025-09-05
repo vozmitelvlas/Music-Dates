@@ -1,10 +1,10 @@
-export function getTimeFormat(date, separator = ":") {
+export const getTimeFormat = (date, separator = ":") => {
     const timeParts = [date.getHours(), date.getMinutes()]
     return timeParts.map(part => part.toString().padStart(2, '0')).join(separator)
 }
 
 
-export function getDateFormat(date, separator = ".") {
+export const getDateFormat = (date, separator = ".") => {
     let str = []
     const day = date.getDate()
     const month = date.getMonth() + 1
@@ -13,7 +13,9 @@ export function getDateFormat(date, separator = ".") {
 
     str.forEach((elem, index) => {
         str[index] = String(elem).padStart(2, '0')
-    });
+    })
 
     return str.join(`${separator}`)
 }
+
+export const timeDurationToMinutes = ({days, hours, minutes}) => days * 1440 + hours + minutes

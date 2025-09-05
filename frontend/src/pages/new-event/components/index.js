@@ -1,2 +1,6 @@
+export * from "./participantsTab/participantsTab.jsx"
+export * from "./continue-button/continue-button.jsx"
+export * from "./descriptionTab/descriptionTab.jsx"
 export * from "./tab-buttons/tab-buttons.jsx"
-export * from "./tab-content/tab-content.jsx"
+export * from "./priceTab/priceTab.jsx"
+export * from "./timeTab/timeTab.jsx"

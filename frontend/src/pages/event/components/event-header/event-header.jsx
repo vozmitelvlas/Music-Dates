@@ -1,10 +1,16 @@
+import {selectEventDescription, selectEventPrice, selectEventStartTime} from "../../../../selectors";
 import {Button, H1, HighlightedText, Img, PinkLayer, WhiteLayer} from "../../../../components";
 import styled from "styled-components";
+import {useSelector} from "react-redux";
 
-const HeaderContainer = ({className, event}) => {
+const HeaderContainer = ({className}) => {
+    const {title, image, skill} = useSelector(selectEventDescription)
+    const startTime = useSelector(selectEventStartTime)
+    const {totalExpenses} = useSelector(selectEventPrice)
+
     return (
         <div className={className}>
-            <H1>{event.title}</H1>
+            <H1>{title}</H1>
             <div className="tmp">Категория: Объявления</div>
             <div className="header">
                 <WhiteLayer className="photos">
@@ -15,24 +21,24 @@ const HeaderContainer = ({className, event}) => {
                     </div>
 
                     <div className="avatar-wrapper">
-                        <Img src={event.image || null} className="avatar" inactive/>
+                        <Img src={image || null} className="avatar" inactive/>
                     </div>
                 </WhiteLayer>
 
                 <WhiteLayer className="main-panel">
-                    <HighlightedText>{event.price} руб.</HighlightedText>
+                    <HighlightedText>{totalExpenses} руб.</HighlightedText>
                     <div className="send-button">
-                        <Button variant="primary">Отправить заявку</Button>
+                        <Button variant="secondary">Отправить заявку</Button>
                     </div>
 
                     <HighlightedText>О событии</HighlightedText>
                     <PinkLayer className="main-info">
                         <div><b>Ограничения: </b> парни, от 10 до 20</div>
                         <div><b>Кол-во участников:</b> 1 - 5 чел.</div>
-                        <div><b>Дата и время:</b> {event.time}</div>
+                        <div><b>Дата и время:</b> {startTime}</div>
                         <div><b>Длительность:</b> 02:00</div>
                         <div><b>Жанр:</b> что-то</div>
-                        <div><b>Опыт:</b> {event.time} </div>
+                        <div><b>Опыт:</b> {skill} </div>
                     </PinkLayer>
                 </WhiteLayer>
             </div>

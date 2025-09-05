@@ -1,5 +1,0 @@
-export * from "./descriptionTab/descriptionTab.jsx"
-export * from "./timeTab/timeTab.jsx"
-export * from "./priceTab/priceTab.jsx"
-export * from "./participantsTab/participantsTab.jsx"
-export * from "./continue-button/continue-button.jsx"

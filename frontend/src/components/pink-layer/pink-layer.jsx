@@ -1,20 +1,13 @@
 import styled from "styled-components";
 
-const sizesMap = {
-    small: '100px',
-    medium: '300px',
-    large: '600px',
-}
-
 export const PinkLayer = styled.div`
-  min-height: ${props => props.height || '100px'};
+  min-height: ${props => props.height || '40px'};
   width: ${props => props.width || ''};
   
-  background-color: #FFE9E9;
+  background-color: var(--light-accent-color);
   border-radius: 8px;
-  margin: 20px;
+  margin: 10px 20px;
   padding: 10px;
-
   font-size: 16px;
   line-height: 1.5;
   
@@ -38,6 +31,6 @@ export const PinkLayer = styled.div`
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px #DF1212;
+    border: 2px solid var(--accent-color);
   }
 `

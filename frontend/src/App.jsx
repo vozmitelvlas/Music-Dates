@@ -16,7 +16,7 @@ const Page = styled.div`
   flex: 1;
   display: flex;
   border-radius: 15px;
-  margin: 70px 0px 130px;
+  margin: 70px 0 120px;
   justify-content: center;
   
   //background: rgba(255, 255, 255, 0.69);

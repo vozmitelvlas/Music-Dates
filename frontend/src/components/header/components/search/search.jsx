@@ -13,10 +13,14 @@ export const Search = styled(SearchContainer)`
   display: flex;
   position: relative;
   width: 800px;
+  
+  input{
+    width: 100%;
+  }
 
   img {
     position: absolute;
-    right: 7px;
-    top: 5px;
+    right: 27px;
+    top: 12px;
   }
 `

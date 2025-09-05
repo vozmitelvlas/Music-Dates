@@ -12,44 +12,18 @@ export const Button = styled(ButtonContainer)`
   font-size: 18px;
   text-align: center;
   border-radius: 5px;
-  border: ${({variant}) => variant ? 'none' : '1px solid #DF1212' };
+  border: ${({variant}) => variant ? 'none' : '1px solid var(--accent-color)' };
   transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
 
 
-  background-color: ${({variant}) => {
-    switch (variant) {
-      case 'primary':
-        return "#DF1212";
-      default:
-        return '#fff';
-    }
-  }};
-  color: ${({variant}) => {
-    switch (variant) {
-      case 'primary':
-        return '#fff';
-      default:
-        return '#000';
-    }
-  }};
+  background-color: ${({ variant }) => (variant === 'secondary' ? 'var(--accent-color)' : '#fff')};
+  color: ${({ variant }) => (variant === 'secondary' ? '#fff' : '#000')};
   cursor: pointer;
+
   &:hover {
     opacity: 0.9;
-    background-color: ${({variant}) => {
-      switch (variant) {
-        case 'primary':
-          return 'rgb(223,18,18)';
-        default:
-          return '#DF1212';
-      }
-    }};
-    color: ${({variant}) => {
-      switch (variant) {
-
-        default:
-          return '#fff';
-      }
-    }};
+    background-color: ${({ variant }) => (variant === 'secondary' ? '#d30000' : 'var(--accent-color)')};
+    color: #fff;
   }
 
   &:disabled {

@@ -21,15 +21,21 @@ const PlatformsContainer = ({className}) => {
             <div className="special-panel"></div>
 
             <div className="list">
-                {platforms.map(({title, address, time, price, id, image}) => (
+                {platforms.map(({
+                                    id,
+                                    description: {title, location, image},
+                                    time: {startTime},
+                                    price: {totalExpenses}
+                                }) => (
                     <EventCard
                         key={id}
                         id={id}
                         title={title}
-                        address={address}
-                        time={time}
-                        price={price}
-                        image={image}/>
+                        address={location}
+                        time={startTime}
+                        price={totalExpenses}
+                        image={image}
+                    />
                 ))}
             </div>
         </div>
@@ -46,7 +52,7 @@ export const Platforms = styled(PlatformsContainer)`
   }
 
   .special-panel {
-    border: 2px solid #e1e1e1;
+    border: 2px solid var(--simple-border);
     margin: 10px;
     height: 60px;
     background-color: #fff;

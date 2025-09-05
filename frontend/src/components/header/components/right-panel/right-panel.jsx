@@ -1,9 +1,9 @@
-import {Popup} from "./components";
 import {Link, useNavigate} from "react-router-dom";
-import {Img} from "../../../img/img.jsx"
-import {useSelector} from "react-redux";
-import styled from "styled-components";
 import {Button} from "../../../button/button.jsx";
+import {Img} from "../../../img/img.jsx";
+import {useSelector} from "react-redux";
+import {Popup} from "./components";
+import styled from "styled-components";
 
 const RightPanelContainer = ({className}) => {
     const navigate = useNavigate()
@@ -43,7 +43,7 @@ const RightPanelContainer = ({className}) => {
                     <li><Link href="#">Профиль</Link></li>
                     <li><Link href="#">Категории</Link></li>
                     <li><Link href="#">Пользователи</Link></li>
-                    <li><Link to="/new-event">Новое событие</Link></li>
+                    <li><Link to={"/new-event"}>Новое событие</Link></li>
                 </ul>
             </Popup>
         </div>

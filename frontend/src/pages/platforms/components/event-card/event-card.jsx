@@ -29,7 +29,7 @@ export const EventCard = styled(EventCardContainer)`
   width: 315px;
   height: 450px;
   margin: 10px;
-  border: 2px solid #e1e1e1;
+  border: 2px solid var(--simple-border);
   border-radius: 5px;
   background-color: #fff;
 
