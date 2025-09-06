@@ -27,11 +27,11 @@ const InputContainer = ({className, ...props}) =>
     <input className={className} {...props}/>
 
 export const Input = styled(InputContainer)`
-  width: ${({width, variant}) => variant ? variants[variant]?.width : width};
+  width: ${({width, variant}) => width ? width : variants[variant]?.width};
   max-width: 100%;
   height: 36px;
   padding: 10px;
-  margin: 5px 20px;
+  margin: 0 20px;
   font-size: 16px;
   line-height: 1.5;
   outline: none;

@@ -20,7 +20,6 @@ export const PinkLayer = styled.div`
   
   overflow-wrap: break-word;
   max-width: 100%;
-  box-sizing: border-box;
 
   &[data-placeholder]:empty:before {
     content: attr(data-placeholder);

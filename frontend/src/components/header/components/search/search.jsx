@@ -21,6 +21,6 @@ export const Search = styled(SearchContainer)`
   img {
     position: absolute;
     right: 27px;
-    top: 12px;
+    top: 7px;
   }
 `

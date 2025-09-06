@@ -1,11 +1,16 @@
 import {DescriptionTab, ParticipantsTab, PriceTab, TimeTab, TabButtons} from "./components";
-import {useLayoutEffect, useRef, useState} from "react";
 import {RESET_EVENT_DATA, SET_EVENT_DATA} from "../../actions";
+import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {selectEvent} from "../../selectors";
 import {H1} from "../../components";
 import {tabs} from "./constants";
 import styled from "styled-components";
+
+const must_fields = {
+    description: ['title', "content", "skill", "place"],
+    participants: ['amountFrom', 'amountTo', "content", "skill", "place"]
+}
 
 const NewEventContainer = ({className}) => {
     const dispatch = useDispatch()
@@ -18,7 +23,7 @@ const NewEventContainer = ({className}) => {
         dispatch(RESET_EVENT_DATA)
         setIsLoading(false)
     }, [])
-    console.log(event)
+
     const goToNextTab = (formData) => {
         dispatch(SET_EVENT_DATA(formData))
 

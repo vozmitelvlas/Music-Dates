@@ -14,6 +14,14 @@ const ContinueButtonContainer = ({className, activeTab, onClick}) => {
                 onClick={onClick}
 
             >
+                Назад
+            </Button>
+            <Button
+                variant="secondary"
+                width="300px"
+                onClick={onClick}
+
+            >
                 {isLast ? 'Создать событие' : 'Продолжить'}
             </Button>
         </div>

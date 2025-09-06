@@ -1,5 +1,5 @@
+import {Logo, RightPanel, Search} from "./components";
 import styled from "styled-components";
-import {Logo, RightPanel, Search} from "./components/index.js";
 
 const HeaderContainer = ({className}) => (
     <header className={className}>

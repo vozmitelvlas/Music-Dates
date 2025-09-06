@@ -4,7 +4,7 @@ import styled from "styled-components";
 const AgeContainer = ({className, isAgeUnlimited, ageFrom, ageTo, handleChange}) => {
     return (
         <WhiteLayer className={className}>
-            <HighlightedText>Возраст *</HighlightedText>
+            <HighlightedText>Возраст</HighlightedText>
             <p>Рекомендуем указывать возрастное ограничение. Ответственность за участников моложе 18 лет несет
                 организатор события.
             </p>
@@ -46,6 +46,7 @@ const AgeContainer = ({className, isAgeUnlimited, ageFrom, ageTo, handleChange})
 export const Age = styled(AgeContainer)`
   .age{
     display: flex;
+    align-items: center;
   }
   .blurred {
     pointer-events: none;

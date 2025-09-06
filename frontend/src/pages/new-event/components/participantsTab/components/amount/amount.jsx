@@ -32,7 +32,7 @@ const AmountContainer = ({className, amountFrom, amountTo, handleChange}) => {
 
 export const Amount = styled(AmountContainer)`
 
-  .amount{
+  .amount {
     display: flex;
     justify-content: center;
   }

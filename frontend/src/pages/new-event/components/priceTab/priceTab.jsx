@@ -34,7 +34,6 @@ const PriceTabContainer = ({className, onFinish, state}) => {
                                 type="number"
                                 placeholder="0"
                                 variant="accent"
-                                width="300px"
                             />
                             <span className="currency-symbol">₽</span>
                         </div>
@@ -51,7 +50,6 @@ const PriceTabContainer = ({className, onFinish, state}) => {
                                 type="number"
                                 placeholder="0"
                                 variant="accent"
-                                width="300px"
                             />
                             <span className="currency-symbol">₽</span>
                         </div>
@@ -91,7 +89,7 @@ export const PriceTab = styled(PriceTabContainer)`
 
   .currency-symbol {
     position: absolute;
-    top: 9px;
+    top: 3.5px;
     right: 18px;
     font-size: 16px;
     color: #797979;

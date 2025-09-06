@@ -6,7 +6,7 @@ const DateTimeContainer = ({className, timeSlots, removeTimeSlot, addTimeSlot, h
         <div className={className}>
             <HighlightedText>Начало события *</HighlightedText>
             <div className="time-slots">
-                {timeSlots.map(({id, label, dateTime}, i) => (
+                {timeSlots.map(({id, dateTime}, i) => (
                     <PinkLayer width="330px" key={id}>
                         <div className="time-slot-header">
                             <p>Вариант {i + 1}</p>
@@ -18,6 +18,8 @@ const DateTimeContainer = ({className, timeSlots, removeTimeSlot, addTimeSlot, h
                             id={id}
                             value={dateTime}
                             onChange={handleTimeChange}
+                            variant="accent"
+                            width="200px"
                         />
                     </PinkLayer>
                 ))}
@@ -31,21 +33,11 @@ const DateTimeContainer = ({className, timeSlots, removeTimeSlot, addTimeSlot, h
 }
 
 export const DateTime = styled(DateTimeContainer)`
-  display: flex;
-  flex-direction: column;
-
 
   .time-slots {
     display: flex;
     flex-wrap: wrap;
-
-    input {
-      background-color: transparent;
-      border: none;
-      border-radius: 0;
-      border-bottom: 2px solid var(--accent-color);
-      color: #4f4f4f;
-    }
+    margin-top: -10px;
   }
 
   .adding-button {
