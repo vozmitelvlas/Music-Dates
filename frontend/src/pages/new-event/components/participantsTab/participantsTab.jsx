@@ -1,30 +1,30 @@
-import {ContinueButton} from "../continue-button/continue-button.jsx";
+import {NavigateButtons} from "../navigate-buttons/navigate-buttons.jsx";
 import {Sex, Amount, Age} from "./components";
 import {useState} from "react";
 import styled from "styled-components";
 
-const ParticipantsTabContainer = ({className, onNext, state}) => {
-    const [participantsState, setParticipantsState] = useState(state)
+const ParticipantsTabContainer = ({className, state, setEvent}) => {
     const handleChange = ({target}) => {
-        if (target.name === "isAgeUnlimited") {
-            setParticipantsState(prevState => ({
-                ...prevState,
-                isAgeUnlimited: target.checked,
-                ageFrom: target.checked ? '' : prevState.ageFrom,
-                ageTo: target.checked ? '' : prevState.ageTo,
-            }))
-        } else {
-            setParticipantsState(prevState => ({
-                ...prevState,
-                [target.name]: target.value
-            }))
-        }
-    }
+        const { name, value, type, checked } = target
+        const isCheckbox = type === 'checkbox'
 
-    const saveAndNext = () => {
-        onNext({
-            participants: {
-                ...participantsState
+        setEvent(prevState => {
+            const participants = prevState.participants
+            const newValue = isCheckbox ? checked : value
+
+            const updatedParticipants = {
+                ...participants,
+                [name]: newValue
+            }
+
+            if (name === 'isAgeUnlimited' && checked) {
+                updatedParticipants.ageFrom = ''
+                updatedParticipants.ageTo = ''
+            }
+
+            return {
+                ...prevState,
+                participants: updatedParticipants
             }
         })
     }
@@ -33,24 +33,23 @@ const ParticipantsTabContainer = ({className, onNext, state}) => {
         <div className={className}>
             <div className="layers">
                 <Amount
-                    amountFrom={participantsState.amountFrom}
-                    amountTo={participantsState.amountTo}
+                    amountFrom={state.amountFrom}
+                    amountTo={state.amountTo}
                     handleChange={handleChange}
                 />
 
                 <Sex
-                    sex={participantsState.sex}
+                    sex={state.sex}
                     handleChange={handleChange}
                 />
 
                 <Age
-                    ageTo={participantsState.ageTo}
-                    ageFrom={participantsState.ageFrom}
-                    isAgeUnlimited={participantsState.isAgeUnlimited}
+                    ageTo={state.ageTo}
+                    ageFrom={state.ageFrom}
+                    isAgeUnlimited={state.isAgeUnlimited}
                     handleChange={handleChange}
                 />
             </div>
-            <ContinueButton onClick={saveAndNext}/>
         </div>
     )
 }
@@ -65,7 +64,6 @@ export const ParticipantsTab = styled(ParticipantsTabContainer)`
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin-bottom: 20px;
   }
 
 

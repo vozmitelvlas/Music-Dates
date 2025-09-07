@@ -1,49 +1,51 @@
-import {selectEventDuration, selectEventStartTime} from "../../../../selectors";
-import {ContinueButton} from "../continue-button/continue-button.jsx";
 import {WhiteLayer} from "../../../../components";
 import {DateTime, Duration} from "./components";
-import {useSelector} from "react-redux";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import styled from "styled-components";
 
 
-const TimeTabContainer = ({className, onNext, state}) => {
-    const [duration, setDuration] = useState(state.duration)
-    const [timeSlots, setTimeSlots] = useState(() => (
-            state.startTime.length ? state.startTime.map((dateTime, i) => ({
-                    id: i + 1,
-                    dateTime
-                }))
-                : [{id: Date.now(), dateTime: ''}]
-        )
+const TimeTabContainer = ({className, state, setEvent}) => {
+    const [timeSlots, setTimeSlots] = useState(() => state.eventStartTimes?.length
+        ? state.eventStartTimes.map(time => ({
+            id: crypto.randomUUID(),
+            startTime: time
+        }))
+        : [{id: crypto.randomUUID(), startTime: ''}]
     )
 
-    const handleChangeDuration = ({target}) => setDuration(prev => ({...prev, [target.name]: Number(target.value)}))
+    useEffect(() => {
+        const validTimes = timeSlots.map(slot => slot.startTime).filter(time => time)
+        setEvent(prev => ({
+            ...prev,
+            time: {
+                ...prev.time,
+                eventStartTimes: validTimes
+            }
+        }))
+    }, [timeSlots, setEvent])
 
-    const handleTimeChange = ({target}) => {
-        const {id, value} = target
-        setTimeSlots((prev) =>
-            prev.map((slot) => slot.id === Number(id) ? {...slot, dateTime: value} : slot)
+    const handleChangeDuration = ({target}) => {
+        setEvent(prevState => ({
+            ...prevState,
+            time: {
+                ...prevState.time,
+                duration:{
+                    ...prevState.time.duration,
+                    [target.name]: Number(target.value)
+                }
+            }
+        }))
+    }
+
+    const handleTimeChange = ({ target }) => {
+        const { id, value } = target
+        setTimeSlots(prev =>
+            prev.map(slot => (slot.id === id ? { ...slot, startTime: value } : slot))
         )
     }
 
-    const addTimeSlot = () =>
-        setTimeSlots((prev) => [
-            ...prev,
-            {id: Date.now(), dateTime: ''},
-        ])
-
-    const removeTimeSlot = (id) => setTimeSlots((prev) => prev.filter((slot) => slot.id !== id))
-
-    const saveAndNext = () => {
-        const timeValues = timeSlots.filter(slot => slot.dateTime).map(slot => slot.dateTime)
-        onNext({
-            time: {
-                startTime: timeValues,
-                duration,
-            }
-        })
-    }
+    const removeTimeSlot = (id) => setTimeSlots(prev => prev.filter(slot => slot.id !== id))
+    const addTimeSlot = () => setTimeSlots(prev => [...prev, { id: crypto.randomUUID(), startTime: '' }])
 
     return (
         <div className={className}>
@@ -59,12 +61,11 @@ const TimeTabContainer = ({className, onNext, state}) => {
 
                 <WhiteLayer>
                     <Duration
-                        duration={duration}
+                        duration={state.duration}
                         handleChange={handleChangeDuration}
                     />
                 </WhiteLayer>
             </div>
-            <ContinueButton onClick={saveAndNext}/>
         </div>
     )
 }

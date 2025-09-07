@@ -6,7 +6,7 @@ const DateTimeContainer = ({className, timeSlots, removeTimeSlot, addTimeSlot, h
         <div className={className}>
             <HighlightedText>Начало события *</HighlightedText>
             <div className="time-slots">
-                {timeSlots.map(({id, dateTime}, i) => (
+                {timeSlots.map(({id, startTime}, i) => (
                     <PinkLayer width="330px" key={id}>
                         <div className="time-slot-header">
                             <p>Вариант {i + 1}</p>
@@ -16,7 +16,7 @@ const DateTimeContainer = ({className, timeSlots, removeTimeSlot, addTimeSlot, h
                         <Input
                             type="datetime-local"
                             id={id}
-                            value={dateTime}
+                            value={startTime}
                             onChange={handleTimeChange}
                             variant="accent"
                             width="200px"

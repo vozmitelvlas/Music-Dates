@@ -2,7 +2,7 @@ import {Input} from "../../../../../../components";
 import styled from "styled-components";
 import {useState} from "react";
 
-const LocationSelectContainer = ({className, placeQuery, setPlaceQuery}) => {
+const LocationSelectContainer = ({className, placeQuery, setPlaceQuery, setEvent}) => {
     const [suggestions, setSuggestions] = useState([])
     const fetchSuggestions = async (value) => {
         if (value.length < 3) {
@@ -29,18 +29,33 @@ const LocationSelectContainer = ({className, placeQuery, setPlaceQuery}) => {
     }
     const handleInputChange = async (e) => {
         const value = e.target.value
-        setPlaceQuery(prevState => ({
+        setEvent(prevState => ({
             ...prevState,
-            location: value,
+            description: {
+                ...prevState.description,
+                location: value
+            }
         }))
+        // setPlaceQuery(prevState => ({
+        //     ...prevState,
+        //     location: value,
+        // }))
         await fetchSuggestions(value)
     }
 
     const selectSuggestion = (suggestion) => {
-        setPlaceQuery(prevState => ({
+        setEvent(prevState => ({
             ...prevState,
-            location: suggestion.value,
+            description: {
+                ...prevState.description,
+                location: suggestion.value,
+            }
         }))
+
+        // setPlaceQuery(prevState => ({
+        //     ...prevState,
+        //     location: suggestion.value,
+        // }))
         setSuggestions([])
     }
 

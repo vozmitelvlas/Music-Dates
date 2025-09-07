@@ -1,12 +1,14 @@
 import {Link, useNavigate} from "react-router-dom";
 import {Button} from "../../../button/button.jsx";
 import {Img} from "../../../img/img.jsx";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Popup} from "./components";
 import styled from "styled-components";
+import {RESET_EVENT_DATA} from "../../../../actions/index.js";
 
 const RightPanelContainer = ({className}) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const userName = useSelector(state => state.user.name)
 
     return (
@@ -43,7 +45,7 @@ const RightPanelContainer = ({className}) => {
                     <li><Link href="#">Профиль</Link></li>
                     <li><Link href="#">Категории</Link></li>
                     <li><Link href="#">Пользователи</Link></li>
-                    <li><Link to={"/new-event"}>Новое событие</Link></li>
+                    <li><Link to={"/new-event"} onClick={() => dispatch(RESET_EVENT_DATA)}>Новое событие</Link></li>
                 </ul>
             </Popup>
         </div>

@@ -1,23 +1,17 @@
 import {HighlightedText, Input, PinkLayer, WhiteLayer} from "../../../../components";
-import {ContinueButton} from "../continue-button/continue-button.jsx";
+import {NavigateButtons} from "../navigate-buttons/navigate-buttons.jsx";
 import styled from "styled-components";
 import {useState} from "react";
 
-const PriceTabContainer = ({className, onFinish, state}) => {
-    const [priceState, setPriceState] = useState(state)
-
+const PriceTabContainer = ({className, setEvent, state}) => {
     const handlePriceChange = ({target}) => {
-        setPriceState(prevState => ({
+        setEvent(prevState => ({
             ...prevState,
-            [target.name]: target.value
-        }))
-    }
-    const saveAndFinish = () => {
-        onFinish({
             price: {
-                ...priceState
+                ...prevState.price,
+                [target.name]: target.value
             }
-        })
+        }))
     }
 
     return (
@@ -28,7 +22,7 @@ const PriceTabContainer = ({className, onFinish, state}) => {
                     <PinkLayer width="200px" className="to-center">
                         <div className="currency-input">
                             <Input
-                                value={priceState.totalExpenses}
+                                value={state.totalExpenses}
                                 name="totalExpenses"
                                 onChange={handlePriceChange}
                                 type="number"
@@ -44,7 +38,7 @@ const PriceTabContainer = ({className, onFinish, state}) => {
                     <PinkLayer width="200px" className="to-center">
                         <div className="currency-input">
                             <Input
-                                value={priceState.individualExpenses}
+                                value={state.individualExpenses}
                                 onChange={handlePriceChange}
                                 name="individualExpenses"
                                 type="number"
@@ -56,7 +50,6 @@ const PriceTabContainer = ({className, onFinish, state}) => {
                     </PinkLayer>
                 </WhiteLayer>
             </div>
-            <ContinueButton onClick={saveAndFinish}/>
         </div>
     )
 }
@@ -92,7 +85,7 @@ export const PriceTab = styled(PriceTabContainer)`
     top: 3.5px;
     right: 18px;
     font-size: 16px;
-    color: #797979;
+    color: #000;
     font-weight: 500;
   }
 `

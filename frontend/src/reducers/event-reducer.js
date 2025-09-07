@@ -1,13 +1,14 @@
 import {ACTION_TYPE} from "../actions";
 
 const initialEventState = {
+    id: "",
     organizerId: "",
     description: {
         title: "",
         content: "",
         skill: "",
         location: "",
-        image: "",
+        image: "/lessons.jpg",
     },
     participants: {
         amountFrom: "",
@@ -15,14 +16,14 @@ const initialEventState = {
         sex: "any",
         ageFrom: "",
         ageTo: "",
-        isAgeUnlimited: true,
+        isAgeUnlimited: false,
     },
     time: {
-        startTime: [],
+        eventStartTimes: [],
         duration: {
             days: 0,
-            hours: 1,
-            minutes: 30,
+            hours: 0,
+            minutes: 0,
         }
     },
     price: {

@@ -1,25 +1,33 @@
 import {HighlightedText, Input, PinkLayer, WhiteLayer} from "../../../../components";
-import {ContinueButton} from "../continue-button/continue-button.jsx";
 import {LocationSelect} from "./components";
 import {sanitizeContent} from "./utils";
-import {useState} from "react";
 import styled from "styled-components";
 
-const DescriptionContainer = ({className, onNext, state, contentRef}) => {
-    const [descriptionState, setDescriptionState] = useState(state)
-
+const DescriptionContainer = ({className, state, contentRef, setEvent}) => {
     const onFormStateChange = ({target}) => {
-        setDescriptionState(prevState => ({
+        setEvent(prevState => ({
             ...prevState,
-            [target.name]: target.value,
+            description: {
+                ...prevState.description,
+                [target.name]: target.value,
+            }
         }))
     }
+    const setContent = () => {
+        const sanitizedContent = sanitizeContent(contentRef.current.innerHTML)
+        console.log(sanitizedContent)
 
-    const saveAndNext = () => {
-        onNext({
-            description: {
-                ...descriptionState,
-                content: sanitizeContent(contentRef.current.innerHTML),
+        setEvent(prevState => {
+            if (prevState.description.content === sanitizedContent) {
+                console.log("asd")
+                return prevState
+            }
+            return {
+                ...prevState,
+                description: {
+                    ...prevState.description,
+                    content: sanitizedContent
+                }
             }
         })
     }
@@ -31,7 +39,7 @@ const DescriptionContainer = ({className, onNext, state, contentRef}) => {
                 <Input
                     type="text"
                     name="title"
-                    value={descriptionState.title}
+                    value={state.title}
                     onChange={onFormStateChange}
                     variant="light"
                     placeholder="Предлагаю..."
@@ -43,19 +51,20 @@ const DescriptionContainer = ({className, onNext, state, contentRef}) => {
                 <p>Расскажите подробно о деталях</p>
                 <PinkLayer
                     as="div"
+                    ref={contentRef}
                     contentEditable={true}
                     suppressContentEditableWarning={true}
                     height="300px"
-                    ref={contentRef}
+                    onBlur={setContent}
                 >
-                    {descriptionState.content}
+                    {state.content}
                 </PinkLayer>
             </WhiteLayer>
 
             <WhiteLayer className="skill">
                 <HighlightedText>Требуемый опыт *</HighlightedText>
                 <Input
-                    value={descriptionState.skill}
+                    value={state.skill}
                     type="text"
                     name="skill"
                     onChange={onFormStateChange}
@@ -65,7 +74,7 @@ const DescriptionContainer = ({className, onNext, state, contentRef}) => {
 
             <WhiteLayer>
                 <HighlightedText>Место *</HighlightedText>
-                <LocationSelect placeQuery={descriptionState.location} setPlaceQuery={setDescriptionState}/>
+                <LocationSelect placeQuery={state.location} setEvent={setEvent}/>
             </WhiteLayer>
 
             <WhiteLayer>
@@ -75,8 +84,6 @@ const DescriptionContainer = ({className, onNext, state, contentRef}) => {
                     +
                 </PinkLayer>
             </WhiteLayer>
-
-            <ContinueButton onClick={saveAndNext}/>
         </div>
     )
 }

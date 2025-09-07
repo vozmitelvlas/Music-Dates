@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import {Button} from "../../../../components/index.js";
+import {tabs} from "../../constants/index.js";
 
 const TabButtonsContainer = ({className, activeTab, setActiveTab}) => {
     return (
@@ -33,19 +35,19 @@ const TabButtonsContainer = ({className, activeTab, setActiveTab}) => {
 
 export const TabButtons = styled(TabButtonsContainer)`
   display: flex;
-  margin: 0 auto 20px;
   gap: 1px;
   background-color: #f0f0f0;
   border-radius: 8px;
   overflow: hidden;
   width: 400px;
+  margin: 0 auto;
+
 
   button {
     width: 100px;
     padding: 12px 16px;
     background: white;
     border: none;
-    cursor: pointer;
     font-size: 14px;
     transition: background 0.2s;
   }
