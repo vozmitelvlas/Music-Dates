@@ -42,9 +42,10 @@ const DurationContainer = ({className, duration, handleChange}) => {
                         onChange={handleChange}
                         className="duration-select"
                     >
-                        {Array.from({ length: 60 }, (_, i) => (
-                            <option key={i} value={i}>{i}</option>
-                        ))}
+                        {Array.from({ length: 4 }, (_, i) => {
+                            const minute = i * 15;
+                            return <option key={minute} value={minute}>{minute}</option>;
+                        })}
                     </select>
                 </div>
             </PinkLayer>

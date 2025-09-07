@@ -1,5 +1,5 @@
 import {Routes, Route} from "react-router-dom";
-import {Footer, Header} from "./components";
+import {Footer, Header, Modal} from "./components";
 import {Categories, Login, Platforms, Register, Event, NewEvent} from "./pages";
 import styled from "styled-components";
 
@@ -39,16 +39,20 @@ function App() {
                     <Route path="/" element={<Categories/>}></Route>
                     <Route path="/login" element={<CenteredContent><Login/></CenteredContent>}></Route>
                     <Route path="/register" element={<CenteredContent><Register/></CenteredContent>}></Route>
+                    <Route path="/new-event" element={<NewEvent/>}></Route>
+
                     <Route path="/platforms" element={<Platforms/>}></Route>
-                    <Route path="platforms/event/:id" element={<Event/>}></Route>
+                    <Route path="/platforms/event/:id" element={<Event/>}></Route>
+                    <Route path="/platforms/event/:id/edit" element={<NewEvent/>}></Route>
+
                     <Route path="/lessons" element={<div>уроки</div>}></Route>
                     <Route path="/parties" element={<div>квартирники</div>}></Route>
                     <Route path="/users" element={<div>пользователи</div>}></Route>
-                    <Route path="/new-event" element={<NewEvent/>}></Route>
                     <Route path="*" element={<div>error page</div>}></Route>
                 </Routes>
             </Page>
             <Footer/>
+            <Modal/>
         </AppColumn>
 
     )

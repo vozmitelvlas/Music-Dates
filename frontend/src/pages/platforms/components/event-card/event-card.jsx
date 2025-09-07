@@ -3,7 +3,7 @@ import {Button, Img} from "../../../../components";
 import {useNavigate} from "react-router-dom";
 
 // мб вынести в компоненты и потом использовать для любых типов ивентов
-const EventCardContainer = ({className, title, address, time, price, id, image}) => {
+const EventCardContainer = ({className, title, location, time, price, id, image}) => {
     const navigate = useNavigate()
     const toEvent = () => navigate(`event/${id}`)
 
@@ -13,7 +13,7 @@ const EventCardContainer = ({className, title, address, time, price, id, image})
                 <Img src={image} onClick={toEvent} className="avatar"/>
             </div>
             <div className="title" onClick={toEvent}>{title}</div>
-            <div className="address">{address}</div>
+            <div className="address">{location}</div>
             <div className="time">{time}</div>
             <div className="price">{price}</div>
             <Button onClick={toEvent}>Подробнее</Button>

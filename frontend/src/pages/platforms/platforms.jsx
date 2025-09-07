@@ -24,15 +24,15 @@ const PlatformsContainer = ({className}) => {
                 {platforms.map(({
                                     id,
                                     description: {title, location, image},
-                                    time: {startTime},
+                                    time: {eventStartTimes},
                                     price: {totalExpenses}
                                 }) => (
                     <EventCard
                         key={id}
                         id={id}
                         title={title}
-                        address={location}
-                        time={startTime}
+                        location={location}
+                        time={eventStartTimes[0]}
                         price={totalExpenses}
                         image={image}
                     />

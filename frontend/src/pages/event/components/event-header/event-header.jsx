@@ -1,16 +1,34 @@
-import {selectEventDescription, selectEventPrice, selectEventStartTime} from "../../../../selectors";
+import {formatDuration, participantsAmountFormat, participantsSexFormat} from "../../../../utils";
 import {Button, H1, HighlightedText, Img, PinkLayer, WhiteLayer} from "../../../../components";
+import {CLOSE_MODAL, openModal, removeEventAsync} from "../../../../actions";
+import {useDispatch, useSelector} from "react-redux";
+import {selectEvent} from "../../../../selectors";
+import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
-import {useSelector} from "react-redux";
 
 const HeaderContainer = ({className}) => {
-    const {title, image, skill} = useSelector(selectEventDescription)
-    const startTime = useSelector(selectEventStartTime)
-    const {totalExpenses} = useSelector(selectEventPrice)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const {description, time, price, participants, id} = useSelector(selectEvent)
+
+    const toEditEventPage =  () => navigate(`edit`)
+
+    const onEventRemove = () => {
+        dispatch(openModal({
+            text: 'Удалить событие?',
+            onConfirm: () => {
+                dispatch(removeEventAsync(id)).then(() => {
+                    navigate('/platforms')
+                })
+                dispatch(CLOSE_MODAL)
+            },
+            onCancel: () => dispatch(CLOSE_MODAL)
+        }))
+    }
 
     return (
         <div className={className}>
-            <H1>{title}</H1>
+            <H1>{description.title}</H1>
             <div className="tmp">Категория: Объявления</div>
             <div className="header">
                 <WhiteLayer className="photos">
@@ -21,25 +39,37 @@ const HeaderContainer = ({className}) => {
                     </div>
 
                     <div className="avatar-wrapper">
-                        <Img src={image || null} className="avatar" inactive/>
+                        <Img src={description.image || null} className="avatar" inactive/>
                     </div>
                 </WhiteLayer>
 
                 <WhiteLayer className="main-panel">
-                    <HighlightedText>{totalExpenses} руб.</HighlightedText>
+                    <HighlightedText>{price.totalExpenses} руб.</HighlightedText>
                     <div className="send-button">
-                        <Button variant="secondary">Отправить заявку</Button>
+                        <Button variant="light">Отправить заявку</Button>
                     </div>
 
-                    <HighlightedText>О событии</HighlightedText>
-                    <PinkLayer className="main-info">
-                        <div><b>Ограничения: </b> парни, от 10 до 20</div>
-                        <div><b>Кол-во участников:</b> 1 - 5 чел.</div>
-                        <div><b>Дата и время:</b> {startTime}</div>
-                        <div><b>Длительность:</b> 02:00</div>
-                        <div><b>Жанр:</b> что-то</div>
-                        <div><b>Опыт:</b> {skill} </div>
-                    </PinkLayer>
+                    <div className="main-info">
+                        <HighlightedText>О событии</HighlightedText>
+                        <PinkLayer>
+                            {participants.sex !== 'any' &&
+                                <div><b>Ограничения: </b>{participantsSexFormat(participants)}</div>}
+                            <div><b>Кол-во участников: </b>{participantsAmountFormat(participants)}</div>
+                            <div><b>Дата и время: </b>{time.eventStartTimes[0]}</div>
+                            <div><b>Адрес: </b>{description.location}</div>
+                            <div><b>Длительность: </b>{formatDuration(time.duration)}</div>
+                            <div><b>Опыт:</b> {description.skill} </div>
+                        </PinkLayer>
+                    </div>
+
+                    <div className="special-buttons">
+                        <Button variant="light" width="170px" onClick={toEditEventPage}>
+                            Редактировать
+                        </Button>
+                        <Button width="170px" variant="light" onClick={onEventRemove}>
+                            Удалить
+                        </Button>
+                    </div>
                 </WhiteLayer>
             </div>
         </div>
@@ -78,6 +108,9 @@ export const EventHeader = styled(HeaderContainer)`
   }
 
   .main-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     width: 600px;
   }
 
@@ -104,12 +137,17 @@ export const EventHeader = styled(HeaderContainer)`
   }
 
   .main-info {
-    display: flex;
     flex-direction: column;
-    gap: 5px;
   }
 
   .send-button {
-    margin: 12px 20px;
+    margin: 0 20px;
+  }
+
+  .special-buttons{
+    display: flex;
+    justify-content: right;
+    gap: 20px;
+    margin: 0px 20px 0;
   }
 `
