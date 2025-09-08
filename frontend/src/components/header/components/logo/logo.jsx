@@ -9,7 +9,6 @@ const LogoContainer = ({className}) => (
             <div className="main-line">MusicDates</div>
             <div className="second-line">Обучайся реально</div>
         </div>
-
     </Link>
 )
 
@@ -22,15 +21,17 @@ export const Logo = styled(LogoContainer)`
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: end;
     width: 160px;
+    height: 50px;
+    margin-bottom: 6px
   }
 
   .main-line {
     position: absolute;
     font-size: 32px;
     font-weight: bold;
-    top: -32px;
+    bottom: 10px;
   }
 
   .second-line {

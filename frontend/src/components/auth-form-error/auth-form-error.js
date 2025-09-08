@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Error = styled.div`
+export const AuthFormError = styled.div`
   background-color: ${({children}) => children ? "#fcadad" : ""};
   height: 40px;
   font-size: 16px;

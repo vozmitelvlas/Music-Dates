@@ -1,11 +1,9 @@
 import styled from "styled-components";
 
-// отсылаю сюда <Img width="" height=""> или в круглый div засунуть фото
-
 const AvatarCardContainer = ({className, name, img}) => {
     return (
         <div className={className}>
-            <div className="circle"></div>
+            {img}
             <div>{name}</div>
         </div>
     )
@@ -14,12 +12,9 @@ const AvatarCardContainer = ({className, name, img}) => {
 export const AvatarCard = styled(AvatarCardContainer)`
   display: flex;
   align-items: center;
+  gap: 5px;
   
-  .circle {
-    width: 40px;
-    height: 40px;
+  img {
     border-radius: 50%;
-    background-color: black;
-    margin-right: 8px;
   }
 `

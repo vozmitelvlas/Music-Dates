@@ -10,7 +10,7 @@
 }
 
 body {
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', sans-serif;
   background: #330000;
   background: linear-gradient(90deg,rgba(51, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 50%, rgba(51, 0, 0, 1) 100%);
 }
@@ -28,6 +28,11 @@ p{
   margin: 0 20px;
   color: #4f4f4f;
 
+}
+
+h1 {
+  font-weight: 800;
+  color: #fff;
 }
 
 a {

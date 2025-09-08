@@ -1,17 +1,21 @@
 import {formatDuration, participantsAmountFormat, participantsSexFormat} from "../../../../utils";
 import {Button, H1, HighlightedText, Img, PinkLayer, WhiteLayer} from "../../../../components";
-import {CLOSE_MODAL, openModal, removeEventAsync} from "../../../../actions";
+import {selectEvent, selectUserId, selectUserRole} from "../../../../store/selectors";
+import {CLOSE_MODAL, openModal} from "../../../../store/actions";
 import {useDispatch, useSelector} from "react-redux";
-import {selectEvent} from "../../../../selectors";
+import {removeEventAsync} from "../../../../api";
 import {useNavigate} from "react-router-dom";
+import {ROLE} from "../../../../constants";
 import styled from "styled-components";
 
 const HeaderContainer = ({className}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const {description, time, price, participants, id} = useSelector(selectEvent)
+    const roleId = useSelector(selectUserRole)
+    const userId = useSelector(selectUserId)
+    const {description, time, price, participants, id, organizerId} = useSelector(selectEvent)
 
-    const toEditEventPage =  () => navigate(`edit`)
+    const toEditEventPage = () => navigate(`edit`)
 
     const onEventRemove = () => {
         dispatch(openModal({
@@ -26,9 +30,12 @@ const HeaderContainer = ({className}) => {
         }))
     }
 
+    const isOrganizer = userId && organizerId && userId === organizerId
+
+
     return (
         <div className={className}>
-            <H1>{description.title}</H1>
+            <h1>{description.title}</h1>
             <div className="tmp">Категория: Объявления</div>
             <div className="header">
                 <WhiteLayer className="photos">
@@ -49,7 +56,7 @@ const HeaderContainer = ({className}) => {
                         <Button variant="light">Отправить заявку</Button>
                     </div>
 
-                    <div className="main-info">
+                    <div>
                         <HighlightedText>О событии</HighlightedText>
                         <PinkLayer>
                             {participants.sex !== 'any' &&
@@ -62,14 +69,16 @@ const HeaderContainer = ({className}) => {
                         </PinkLayer>
                     </div>
 
-                    <div className="special-buttons">
-                        <Button variant="light" width="170px" onClick={toEditEventPage}>
-                            Редактировать
-                        </Button>
-                        <Button width="170px" variant="light" onClick={onEventRemove}>
-                            Удалить
-                        </Button>
-                    </div>
+                    {(roleId === ROLE.ADMIN || isOrganizer) && (
+                        <div className="special-buttons">
+                            <Button variant="light" width="170px" onClick={toEditEventPage}>
+                                Редактировать
+                            </Button>
+                            <Button width="170px" variant="light" onClick={onEventRemove}>
+                                Удалить
+                            </Button>
+                        </div>
+                    )}
                 </WhiteLayer>
             </div>
         </div>
@@ -136,18 +145,14 @@ export const EventHeader = styled(HeaderContainer)`
     background-color: #000;
   }
 
-  .main-info {
-    flex-direction: column;
-  }
-
   .send-button {
     margin: 0 20px;
   }
 
-  .special-buttons{
+  .special-buttons {
     display: flex;
     justify-content: right;
     gap: 20px;
-    margin: 0px 20px 0;
+    margin: -10px 20px 0;
   }
 `

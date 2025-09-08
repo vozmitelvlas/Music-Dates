@@ -25,7 +25,7 @@ export const Popup = styled(PopupContainer)`
     width: ${({width = '200px'}) => width};
     border-radius: 8px;
     font-size: 14px;
-    opacity: 0;
+    opacity: 1;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     pointer-events: auto;

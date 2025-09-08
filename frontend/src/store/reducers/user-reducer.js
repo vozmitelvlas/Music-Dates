@@ -1,10 +1,15 @@
-import {ACTION_TYPE} from "../actions";
-import {ROLE} from "../constants";
+import {ACTION_TYPE} from "../actions/index.js";
+import {ROLE} from "../../constants/index.js";
 
 const initialUserState = {
-    name: null,
-    city: null,
-    roleId: ROLE.GUEST
+    id: "",
+    name: "",
+    number: "",
+    city: "",
+    password: "",
+    photo: "",
+    registeredAt: "",
+    roleId: "",
 }
 
 export const userReducer = (state = initialUserState, action) => {
@@ -14,6 +19,8 @@ export const userReducer = (state = initialUserState, action) => {
                 ...state,
                 ...action.payload,
             }
+        case ACTION_TYPE.LOGOUT:
+            return initialUserState
         default:
             return state
     }

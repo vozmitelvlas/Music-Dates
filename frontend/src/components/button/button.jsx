@@ -4,7 +4,7 @@ const variants = {
     default: {
         border: '1px solid var(--accent-color)',
         backgroundColor: '#fff',
-        color: '#000',
+        color: 'var(--accent-color)',
         backgroundColorOnFocus: 'var(--accent-color)'
     },
     light: {

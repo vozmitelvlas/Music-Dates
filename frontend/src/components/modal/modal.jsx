@@ -1,4 +1,4 @@
-import {selectModalData} from "../../selectors";
+import {selectModalData} from "../../store/selectors";
 import {Button} from "../button/button.jsx";
 import {useSelector} from "react-redux";
 import styled from "styled-components";
@@ -9,16 +9,18 @@ const ModalContainer = ({className}) => {
     if (!isOpen)
         return null
 
-    return <div className={className}>
-        <div className="overlay"></div>
-        <div className="box">
-            <h3>{text}</h3>
-            <div className="buttons">
-                <Button width="120px" onClick={onConfirm}>Да</Button>
-                <Button width="120px" onClick={onCancel}>Отмена</Button>
+    return (
+        <div className={className}>
+            <div className="overlay"></div>
+            <div className="box">
+                <h3>{text}</h3>
+                <div className="buttons">
+                    <Button width="120px" onClick={onConfirm}>Да</Button>
+                    <Button width="120px" onClick={onCancel}>Отмена</Button>
+                </div>
             </div>
         </div>
-    </div>
+    )
 }
 
 export const Modal = styled(ModalContainer)`

@@ -1,35 +1,27 @@
-import {Routes, Route} from "react-router-dom";
+import {Categories, Login, Platforms, Register, Event, NewEvent, Users} from "./pages";
 import {Footer, Header, Modal} from "./components";
-import {Categories, Login, Platforms, Register, Event, NewEvent} from "./pages";
+import {Routes, Route} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {setUser} from "./store/actions";
+import {useEffect} from "react";
 import styled from "styled-components";
 
-const AppColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 100%;
-  width: 1340px;
-  margin: 0 auto;
-`
-
-const Page = styled.div`
-  flex: 1;
-  display: flex;
-  border-radius: 15px;
-  margin: 70px 0 120px;
-  justify-content: center;
-  
-  //background: rgba(255, 255, 255, 0.69);
-`
-
-const CenteredContent = styled.div`
-  display: flex;
-  margin: 0 auto;
-  align-items: center;
-  justify-content: center;
-`
-
 function App() {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        const currentUserDataJSON = sessionStorage.getItem('userData')
+
+        if (!currentUserDataJSON) {
+            return
+        }
+        const currentUserData = JSON.parse(currentUserDataJSON)
+
+        dispatch(setUser({
+            ...currentUserData,
+            roleId: Number(currentUserData.roleId)
+        }))
+    }, [])
 
     return (
         <AppColumn>
@@ -47,15 +39,38 @@ function App() {
 
                     <Route path="/lessons" element={<div>уроки</div>}></Route>
                     <Route path="/parties" element={<div>квартирники</div>}></Route>
-                    <Route path="/users" element={<div>пользователи</div>}></Route>
+                    <Route path="/users" element={<Users/>}></Route>
                     <Route path="*" element={<div>error page</div>}></Route>
                 </Routes>
             </Page>
             <Footer/>
             <Modal/>
         </AppColumn>
-
     )
 }
+
+const AppColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  width: 1340px;
+  margin: 0 auto;
+`
+
+const Page = styled.div`
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  border-radius: 15px;
+  margin: 70px 0 120px;
+`
+
+const CenteredContent = styled.div`
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+`
 
 export default App

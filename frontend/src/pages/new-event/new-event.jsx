@@ -1,10 +1,10 @@
 import {DescriptionTab, ParticipantsTab, PriceTab, TimeTab, TabButtons, NavigateButtons} from "./components";
 import {useMatch, useNavigate, useParams} from "react-router-dom";
-import {loadEventDataAsync, saveEventAsync} from "../../actions";
+import {loadEventDataAsync, saveEventAsync} from "../../store/actions";
 import {getValidationErrorsEventData} from "../../schemes";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useRef, useState} from "react";
-import {selectEvent} from "../../selectors";
+import {selectEvent, selectUserId} from "../../store/selectors";
 import {H1} from "../../components";
 import {tabs} from "./constants";
 import styled from "styled-components";
@@ -19,7 +19,10 @@ const NewEventContainer = ({className}) => {
     const [isLoading, setIsLoading] = useState(true)
     const [activeTab, setActiveTab] = useState('description')
     const isEditing = !!useMatch('/platforms/event/:id/edit')
-    const [event, setEvent] = useState(useSelector(selectEvent))
+    const [event, setEvent] = useState({
+        ...useSelector(selectEvent),
+        organizerId: useSelector(selectUserId)
+    })
 
     useEffect(() => {
         if (isCreating) {
@@ -39,23 +42,13 @@ const NewEventContainer = ({className}) => {
         errors.length ? setIsFull(false) : setIsFull(true)
     }, [event, activeTab])
 
-    // После каждого "продолжить" отправлять данные на сервер. После reload подгруженные данные появяться.
-    // Как минимум на предыдущих страницах, на текущей поля сотрутся. Но если до конца не создаст юзер событие то надо
-    // c сервера стереть его.
-    // useEffect(() => {
-    //     dispatch(getEventDataAsync)
-    //     return () => dispatch(RESET_EVENT_DATA)
-    // }, [])
-    // useDidUpdate(() => {
-    //     dispatch(/*setEventDataAsync*/)
-    // }, [activeTab])
-
-    const goToTab = (offset) => {
+    const continueOrCreate = (offset) => {
         const currentIndex = tabs.indexOf(activeTab)
         if (currentIndex === tabs.length - 1) {
             dispatch(saveEventAsync(event)).then(({id}) => {
                 navigate(`/platforms/event/${id}`)
             })
+            return
         }
 
         const newIndex = currentIndex + offset
@@ -64,8 +57,8 @@ const NewEventContainer = ({className}) => {
             window.scrollTo(0, 0)
         }
     }
-    const toNextTab = () => goToTab(1)
-    const toPrevTab = () => goToTab(-1)
+    const toNextTab = () => continueOrCreate(1)
+    const toPrevTab = () => continueOrCreate(-1)
 
     const TabContent = (activeTab) => {
         switch (activeTab) {
@@ -98,7 +91,7 @@ const NewEventContainer = ({className}) => {
 
     return (
         <div className={className}>
-            <H1>Новое событие</H1>
+            <h1>Новое событие</h1>
             <TabButtons activeTab={activeTab} setActiveTab={setActiveTab}/>
             {TabContent(activeTab)}
             <NavigateButtons

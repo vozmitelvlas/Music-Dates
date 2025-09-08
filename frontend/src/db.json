@@ -1,12 +1,44 @@
 {
+  "roles": [
+    {
+      "id": 0,
+      "name": "Admin"
+    },
+    {
+      "id": 1,
+      "name": "Guest"
+    }
+  ],
   "users": [
     {
-      "name": "Vlas Vozmitel",
+      "id": "111",
+      "name": "VlasAdmin",
       "number": "89141799999",
       "city": "Хабаровск",
       "password": "123qwe",
-      "repeatPassword": "123qwe",
-      "id": 1
+      "photo": "/background.jpg",
+      "registeredAt": "2025-09-05T21:49",
+      "roleId": 0
+    },
+    {
+      "id": "DM30QVH",
+      "name": "VlasGuest",
+      "number": "89141799991",
+      "city": "Хабаровск",
+      "password": "123asd",
+      "registeredAt": "2025-09-05T21:49",
+      "photo": "",
+      "roleId": 1
+    },
+    {
+      "id": "DM30QVQ",
+      "name": "SeregaGuiter",
+      "number": "89141799992",
+      "city": "Хабаровск",
+      "password": "qweasd1",
+      "registeredAt": "2025-09-05T21:49",
+      "photo": "",
+      "roleId": 1
     }
   ],
   "platforms": [
@@ -176,37 +208,70 @@
       }
     },
     {
-      "id": "005",
-      "organizerId": "111",
+      "organizerId": "DM30QVH",
       "description": {
-        "title": "Муж на час. два три , на вечность",
-        "content": "Играем в зале TOP ARENA.\nХороший зал в 12 минутах пешком от станции метро \"Нарвская\" (950 м). Есть душ, парковочные места.\n\n",
-        "skill": "бесконечность",
-        "location": "г. Санкт-Петербург, Торжковская, д. 15",
+        "title": "VlasGuest",
+        "content": "VlasGuestVlasGuestVlasGuest \nVlasGuestVlasGuestVlasGuestVlasGuest\nVlasGuest\n\nVlasGuestVlasGuestVlasGuest",
+        "skill": "2 года",
+        "location": "г Санкт-Петербург, ул Торжковская 15",
         "image": "/lessons.jpg"
       },
       "participants": {
-        "amountFrom": "1",
-        "amountTo": "1",
-        "sex": "male",
-        "ageFrom": "18",
-        "ageTo": "22",
+        "amountFrom": "10",
+        "amountTo": "20",
+        "sex": "any",
+        "ageFrom": "10",
+        "ageTo": "20",
         "isAgeUnlimited": false
       },
       "time": {
         "eventStartTimes": [
-          "2025-09-26T15:38"
+          "2025-09-27T21:34"
         ],
         "duration": {
-          "days": 30,
-          "hours": 23,
+          "days": 16,
+          "hours": 13,
           "minutes": 45
         }
       },
       "price": {
-        "totalExpenses": "99",
+        "totalExpenses": "1290",
         "individualExpenses": ""
-      }
+      },
+      "id": "stVZalq"
+    },
+    {
+      "organizerId": "DM30QVQ",
+      "description": {
+        "title": "SeregaGuiter",
+        "content": "&lt;div style=\"background-color:#2b2b2b;color:#a9b7c6\"&gt;&lt;pre style=\"font-family:'JetBrains Mono',monospace;font-size:9,8pt;\"&gt;&lt;span style=\"color:#6a8759;\"&gt;SeregaGuiter&lt;/span&gt;SeregaGuiterSeregaGuiter&lt;/pre&gt;\n\n<div style=\"background-color:#2b2b2b;color:#a9b7c6\"><pre style=\"font-family:'JetBrains Mono',monospace;font-size:9,8pt;\"><span style=\"color:#6a8759;\">SeregaGuiter</span></pre><pre style=\"font-family:'JetBrains Mono',monospace;font-size:9,8pt;\"><span style=\"color:#6a8759;\"></span></pre><pre style=\"font-family:'JetBrains Mono',monospace;font-size:9,8pt;\">\n<pre style=\"font-family:'JetBrains Mono',monospace;font-size:9,8pt;\"><span style=\"color:#6a8759;\">SeregaGuiter</span>SeregaGuiter</pre></pre>",
+        "skill": "2 года",
+        "location": "г Санкт-Петербург, ул Торжковская 15",
+        "image": "/lessons.jpg"
+      },
+      "participants": {
+        "amountFrom": "10",
+        "amountTo": "20",
+        "sex": "male",
+        "ageFrom": "10",
+        "ageTo": "20",
+        "isAgeUnlimited": false
+      },
+      "time": {
+        "eventStartTimes": [
+          "2025-09-13T21:36"
+        ],
+        "duration": {
+          "days": 12,
+          "hours": 0,
+          "minutes": 0
+        }
+      },
+      "price": {
+        "totalExpenses": "9919",
+        "individualExpenses": ""
+      },
+      "id": "zSIgacQ"
     }
   ]
 }

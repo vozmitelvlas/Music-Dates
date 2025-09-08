@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
-import {loadPlatformEventAsync, RESET_EVENT_DATA} from "../../actions";
-import {selectEvent} from "../../selectors";
+import {loadPlatformEventAsync, RESET_EVENT_DATA} from "../../store/actions";
+import {selectEvent} from "../../store/selectors";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import styled from "styled-components"

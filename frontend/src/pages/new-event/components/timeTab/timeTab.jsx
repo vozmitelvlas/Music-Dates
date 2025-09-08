@@ -43,7 +43,6 @@ const TimeTabContainer = ({className, state, setEvent}) => {
             prev.map(slot => (slot.id === id ? { ...slot, startTime: value } : slot))
         )
     }
-
     const removeTimeSlot = (id) => setTimeSlots(prev => prev.filter(slot => slot.id !== id))
     const addTimeSlot = () => setTimeSlots(prev => [...prev, { id: crypto.randomUUID(), startTime: '' }])
 

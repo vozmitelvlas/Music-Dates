@@ -17,7 +17,7 @@ const PlatformsContainer = ({className}) => {
 
     return (
         <div className={className}>
-            <H1>Музыкальные площадки в Санкт-Петербурге</H1>
+            <h1>Музыкальные площадки в Санкт-Петербурге</h1>
             <div className="special-panel"></div>
 
             <div className="list">

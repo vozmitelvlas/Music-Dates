@@ -1,4 +1,5 @@
-import {ACTION_TYPE} from "../actions";
+import {ACTION_TYPE} from "../actions/index.js";
+import {act} from "react";
 
 const initialAppState = {
     wasLogout: false,
@@ -9,7 +10,8 @@ const initialAppState = {
         },
         onCancel: () => {
         },
-    }
+    },
+    errorMessage: ''
 }
 
 export const appReducer = (state = initialAppState, action) => {
@@ -29,6 +31,14 @@ export const appReducer = (state = initialAppState, action) => {
                 }
             }
         case ACTION_TYPE.CLOSE_MODAL:
+            return initialAppState
+
+        case ACTION_TYPE.SET_ERROR:
+            return {
+                ...state,
+                errorMessage: action.payload
+            }
+        case ACTION_TYPE.CLEAR_ERROR:
             return initialAppState
         default:
             return state

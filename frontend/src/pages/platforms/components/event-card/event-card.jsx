@@ -1,12 +1,11 @@
-import styled from "styled-components";
 import {Button, Img} from "../../../../components";
 import {useNavigate} from "react-router-dom";
+import styled from "styled-components";
 
-// мб вынести в компоненты и потом использовать для любых типов ивентов
+// В будующем вынести в ./компоненты и потом использовать для любых типов ивентов
 const EventCardContainer = ({className, title, location, time, price, id, image}) => {
     const navigate = useNavigate()
     const toEvent = () => navigate(`event/${id}`)
-
     return (
         <div className={className}>
             <div className="avatar-wrapper">
@@ -15,7 +14,7 @@ const EventCardContainer = ({className, title, location, time, price, id, image}
             <div className="title" onClick={toEvent}>{title}</div>
             <div className="address">{location}</div>
             <div className="time">{time}</div>
-            <div className="price">{price}</div>
+            <div className="price">{price} руб.</div>
             <Button onClick={toEvent}>Подробнее</Button>
         </div>
     )

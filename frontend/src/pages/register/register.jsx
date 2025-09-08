@@ -1,13 +1,12 @@
-import {Button, Error, Input} from "../../components/index.js";
-import {registerFormSchema} from "../../schemas.js";
+import {Button, AuthFormError, Input} from "../../components/index.js";
+import {registerFormSchema} from "../../schemes/auth-schemes.js";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {apiClient} from "../../utils/index.js";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {useState} from "react";
 import styled from "styled-components";
 import {useDispatch} from "react-redux";
-import {registerUserAsync} from "../../actions/index.js";
+import {registerUserAsync} from "../../store/actions/index.js";
 
 const RegisterContainer = ({className}) => {
     const dispatch = useDispatch()
@@ -24,8 +23,9 @@ const RegisterContainer = ({className}) => {
         resolver: yupResolver(registerFormSchema)
     })
 
-    const onSubmit = (formState) => {
-        dispatch(registerUserAsync(formState)).then(() => {
+    const onSubmit = ({repeatPassword, ...formState}) => {
+        dispatch(registerUserAsync(formState)).then(userData => {
+            sessionStorage.setItem('userData', JSON.stringify(userData))
             navigate("/")
         }).catch((error) => {
             setServerError(error.message)
@@ -46,38 +46,38 @@ const RegisterContainer = ({className}) => {
                     </div>
                 </div>
                 <div className="payload">
-                    <div>
+                    <div className="field">
                         <label htmlFor="name">
-                            <span>* </span>Имя
+                            <span>*</span>Имя
                         </label>
-                        <Input name="name" type="text" {...register('name')}/>
+                        <Input id="name" type="text" {...register('name')} width="100%"/>
                     </div>
-                    <div>
+                    <div className="field">
                         <label htmlFor="number">
                             <span>* </span>Телефон
                         </label>
-                        <Input name="number" type="tel" {...register('number')}/>
+                        <Input id="number" type="tel" {...register('number')} width="100%"/>
                     </div>
-                    <div>
-                        <label htmlFor="ciy">
+                    <div className="field">
+                        <label htmlFor="city">
                             <span>* </span>Ваш город
                         </label>
-                        <Input name="city" type="text" {...register('city')}/>
+                        <Input id="city" type="text" {...register('city')} width="100%"/>
                     </div>
-                    <div>
+                    <div className="field">
                         <label htmlFor="password">
                             <span>* </span>Пароль
                         </label>
-                        <Input name="password" type="password" {...register('password')}/>
+                        <Input id="password" type="password" {...register('password')} width="100%"/>
                     </div>
-                    <div>
+                    <div className="field">
                         <label htmlFor="repeat-password">
                             <span>* </span>Повторите пароль
                         </label>
-                        <Input name="repeat-password" type="password" {...register('repeatPassword')}/>
+                        <Input id="repeat-password" type="password" {...register('repeatPassword')} width="100%"/>
                     </div>
                 </div>
-                <Error $margin="10px 0">{errorMessage}</Error>
+                <AuthFormError $margin="10px 0">{errorMessage}</AuthFormError>
                 <Button type="submit">Зарегистрироваться</Button>
             </form>
         </div>
@@ -117,6 +117,17 @@ export const Register = styled(RegisterContainer)`
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin: 10px;
+  }
+
+  .field {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    label{
+      display: flex;
+      width: 150px;
+    }
   }
 
   .login {

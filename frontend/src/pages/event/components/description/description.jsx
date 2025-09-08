@@ -1,7 +1,7 @@
-import {AvatarCard, HighlightedText, PinkLayer, WhiteLayer} from "../../../../components";
+import {AvatarCard, HighlightedText, Img, PinkLayer, WhiteLayer} from "../../../../components";
 import styled from "styled-components";
 import {useSelector} from "react-redux";
-import {selectEventDescription} from "../../../../selectors/index.js";
+import {selectEventDescription} from "../../../../store/selectors/index.js";
 
 const DescriptionContainer = ({className}) => {
     const {content} = useSelector(selectEventDescription)
@@ -19,24 +19,32 @@ const DescriptionContainer = ({className}) => {
                 <WhiteLayer>
                     <HighlightedText>Организатор</HighlightedText>
                     <PinkLayer>
-                        <AvatarCard name="Константин"/>
+                        <AvatarCard name="Константин" img={
+                            <Img src="/user.svg" width="40px" height="40px"/>
+                        }/>
                     </PinkLayer>
                 </WhiteLayer>
                 <WhiteLayer>
                     <HighlightedText>Участники</HighlightedText>
                     <PinkLayer className="members">
-                        <AvatarCard name="Константин"/>
-                        <AvatarCard name="Влас"/>
-                        <AvatarCard name="Влас"/>
-                        <AvatarCard name="Влас"/>
-                        <AvatarCard name="Влас"/>
-                        <AvatarCard name="Влас"/>
-                        <AvatarCard name="Влас"/>
-                        <AvatarCard name="Влас"/>
-                        <AvatarCard name="Влас"/>
-                        <AvatarCard name="Влас"/>
-                        <AvatarCard name="Влас"/>
-                        <AvatarCard name="Влас"/>
+                        <AvatarCard name="Константин" img={
+                            <Img src="/user.svg" width="40px" height="40px"/>
+                        }/>
+                        <AvatarCard name="Константин" img={
+                            <Img src="/user.svg" width="40px" height="40px"/>
+                        }/>
+                        <AvatarCard name="Константин" img={
+                            <Img src="/user.svg" width="40px" height="40px"/>
+                        }/>
+                        <AvatarCard name="Константин" img={
+                            <Img src="/user.svg" width="40px" height="40px"/>
+                        }/>
+                        <AvatarCard name="Константин" img={
+                            <Img src="/user.svg" width="40px" height="40px"/>
+                        }/>
+                        <AvatarCard name="Константин" img={
+                            <Img src="/user.svg" width="40px" height="40px"/>
+                        }/>
                     </PinkLayer>
                 </WhiteLayer>
             </div>
@@ -56,7 +64,7 @@ export const Description = styled(DescriptionContainer)`
   .people {
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 300px;
     gap: 20px;
 
     position: sticky;

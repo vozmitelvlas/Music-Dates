@@ -1,4 +1,4 @@
-import {apiClient} from "../utils";
+import {apiClient} from "../../utils/index.js";
 import {ACTION_TYPE} from "./action-type.js";
 
 
@@ -25,13 +25,9 @@ export const saveEventAsync = ({id, ...newEventData}) => (dispatch) => {
     })
 }
 
-export const removeEventAsync = (id) => () =>
-    apiClient(`/platforms/${id}`, 'DELETE')
-
 export const loadEventDataAsync = (id) => (dispatch) =>
     apiClient(`/platforms/${id}`).then(eventDAta => {
         if (eventDAta)
             dispatch(SET_EVENT_DATA(eventDAta))
-
         return eventDAta
     })

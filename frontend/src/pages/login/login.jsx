@@ -1,13 +1,12 @@
-import {Button, Error, Input} from "../../components";
+import {Button, AuthFormError, Input} from "../../components";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {loginFormSchema} from "../../schemas.js";
+import {loginFormSchema} from "../../schemes/auth-schemes.js";
+import {loginUserAsync} from "../../store/actions";
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 import {useForm} from "react-hook-form";
-import {apiClient} from "../../utils";
 import {useState} from "react";
 import styled from "styled-components";
-import {useDispatch} from "react-redux";
-import {loginUserAsync} from "../../actions/index.js";
 
 const LoginContainer = ({className}) => {
     const navigate = useNavigate()
@@ -22,8 +21,11 @@ const LoginContainer = ({className}) => {
     })
 
     const onSubmit = (formState) => {
-        dispatch(loginUserAsync(formState)).then(() => {
-            navigate("/")
+        dispatch(loginUserAsync(formState)).then(userData => {
+            if(userData){
+                sessionStorage.setItem('userData', JSON.stringify(userData))
+                navigate("/")
+            }
         }).catch((error) => {
             setServerError(error.message)
         })
@@ -31,6 +33,7 @@ const LoginContainer = ({className}) => {
 
     const formError = Object.values(formState.errors)[0]?.message
     const errorMessage = formError || serverError
+
 
     return (
         <div className={className}>
@@ -41,14 +44,10 @@ const LoginContainer = ({className}) => {
                     <div>записываться на события и создавать их.</div>
                 </div>
                 <div className="payload">
-                    <Input type="tel" placeholder="Номер телефона"
-                           {...register('number')}
-                    />
-                    <Input type="password" placeholder="Пароль"
-                           {...register('password')}
-                    />
+                    <Input type="tel" placeholder="Номер телефона"{...register('number')}/>
+                    <Input type="password" placeholder="Пароль"{...register('password')}/>
                 </div>
-                <Error>{errorMessage}</Error>
+                <AuthFormError>{errorMessage}</AuthFormError>
                 <div className="help">
                     <span>Забыли пароль?</span>
                     <span onClick={() => navigate('/register')}>Регистрация</span>

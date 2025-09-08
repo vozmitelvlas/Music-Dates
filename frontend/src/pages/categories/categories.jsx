@@ -5,7 +5,7 @@ import {H1} from "../../components";
 export const CategoriesContainer = ({className}) => {
     return (
         <div className={className}>
-            <H1>Категории</H1>
+            <h1>Категории</h1>
             <div className="list">
                 <Category src="/lessons.jpg" to={"/lessons"}>Уроки музыки</Category>
                 <Category src="/parties.jpg" to={"/parties"}>Квартирники</Category>

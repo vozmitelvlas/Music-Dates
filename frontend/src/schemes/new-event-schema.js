@@ -34,7 +34,7 @@ const validationRules = {
                 if (data.isAgeUnlimited) return true
                 const from = Number(data.ageFrom)
                 const to = Number(data.ageTo)
-                return !isNaN(from) && !isNaN(to) && to > from
+                return !isNaN(from) && !isNaN(to) && to >= from
             }
         }
     ],
