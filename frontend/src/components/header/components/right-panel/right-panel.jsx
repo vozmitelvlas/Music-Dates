@@ -19,7 +19,7 @@ const RightPanelContainer = ({className}) => {
     const userRole = useSelector(selectUserRole)
 
     const onLogout = () => {
-        dispatch(logout)
+        dispatch(logout())
         sessionStorage.removeItem('userData')
     }
 

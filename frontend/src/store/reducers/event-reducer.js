@@ -2,7 +2,7 @@ import {ACTION_TYPE} from "../actions/index.js";
 
 const initialEventState = {
     id: "",
-    organizerId: "",
+    organizer: "",
     description: {
         title: "",
         content: "",

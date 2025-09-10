@@ -13,7 +13,7 @@ const NavigateButtonsContainer = ({className, activeTab, onNext, onPrev, isFull,
                 variant="light"
                 width="200px"
                 onClick={onPrev}
-                className={isFirst && 'blurred'}
+                disabled={!isFull}
             >
                 Назад
             </Button>
@@ -21,7 +21,7 @@ const NavigateButtonsContainer = ({className, activeTab, onNext, onPrev, isFull,
                 variant="light"
                 width="200px"
                 onClick={onNext}
-                className={!isFull && 'blurred'}
+                disabled={!isFull}
             >
                 {isLast ? isEditing ? 'Сохранить' : 'Создать событие' : 'Продолжить'}
             </Button>
@@ -34,9 +34,4 @@ export const NavigateButtons = styled(NavigateButtonsContainer)`
   gap: 20px;
   width: 100%;
   justify-content: right;
-
-  .blurred {
-    pointer-events: none;
-    opacity: 0.6;
-  }
 `

@@ -1,6 +1,5 @@
 import {Category} from "./components";
 import styled from "styled-components";
-import {H1} from "../../components";
 
 export const CategoriesContainer = ({className}) => {
     return (
@@ -31,5 +30,6 @@ export const Categories = styled(CategoriesContainer)`
     justify-content: space-between;
     padding: 0 30px;
   }
+  
 
 `

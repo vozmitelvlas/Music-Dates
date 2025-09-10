@@ -21,16 +21,23 @@ export const getDateFormat = (date, separator = ".") => {
 export const timeDurationToMinutes = ({days, hours, minutes}) => days * 1440 + hours + minutes
 
 export const defineHours = (hours) => {
-    if (hours % 10 === 1) return `${hours} час `
-    if ([2, 3, 4].includes(hours % 10)) return `${hours} часа `
+    if (hours % 100 >= 11 && hours % 100 <= 14) {
+        return `${hours} часов `
+    }
+    const lastDigit = hours % 10
+    if (lastDigit === 1) return `${hours} час `
+    if ([2, 3, 4].includes(lastDigit)) return `${hours} часа `
     return `${hours} часов `
 }
 export const defineDays = (days) => {
-    if (days % 10 === 1) return `${days} день `
-    if ([2, 3, 4].includes(days % 10)) return `${days} дня `
+    if (days % 100 >= 11 && days % 100 <= 14) {
+        return `${days} дней `
+    }
+    const lastDigit = days % 10
+    if (lastDigit === 1) return `${days} день `
+    if ([2, 3, 4].includes(lastDigit)) return `${days} дня `
     return `${days} дней `
 }
-
 export const formatDuration = (duration) => {
     const days = duration.days ? defineDays(duration.days) : ''
     const hours = duration.hours ? defineHours(duration.hours) : ''

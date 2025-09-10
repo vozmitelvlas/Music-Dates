@@ -1,37 +1,11 @@
 import {formatDuration, participantsAmountFormat, participantsSexFormat} from "../../../../utils";
-import {Button, H1, HighlightedText, Img, PinkLayer, WhiteLayer} from "../../../../components";
-import {selectEvent, selectUserId, selectUserRole} from "../../../../store/selectors";
-import {CLOSE_MODAL, openModal} from "../../../../store/actions";
-import {useDispatch, useSelector} from "react-redux";
-import {removeEventAsync} from "../../../../api";
+import {Button, HighlightedText, Img, PinkLayer, WhiteLayer} from "../../../../components";
 import {useNavigate} from "react-router-dom";
-import {ROLE} from "../../../../constants";
 import styled from "styled-components";
 
-const HeaderContainer = ({className}) => {
+const HeaderContainer = ({className, description, cost, time, participants, onEventRemove, isOrganizer, isAdmin}) => {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const roleId = useSelector(selectUserRole)
-    const userId = useSelector(selectUserId)
-    const {description, time, price, participants, id, organizerId} = useSelector(selectEvent)
-
     const toEditEventPage = () => navigate(`edit`)
-
-    const onEventRemove = () => {
-        dispatch(openModal({
-            text: 'Удалить событие?',
-            onConfirm: () => {
-                dispatch(removeEventAsync(id)).then(() => {
-                    navigate('/platforms')
-                })
-                dispatch(CLOSE_MODAL)
-            },
-            onCancel: () => dispatch(CLOSE_MODAL)
-        }))
-    }
-
-    const isOrganizer = userId && organizerId && userId === organizerId
-
 
     return (
         <div className={className}>
@@ -46,12 +20,12 @@ const HeaderContainer = ({className}) => {
                     </div>
 
                     <div className="avatar-wrapper">
-                        <Img src={description.image || null} className="avatar" inactive/>
+                        <Img src={description.photo || null} className="avatar" inactive/>
                     </div>
                 </WhiteLayer>
 
                 <WhiteLayer className="main-panel">
-                    <HighlightedText>{price.totalExpenses} руб.</HighlightedText>
+                    <HighlightedText>{cost}</HighlightedText>
                     <div className="send-button">
                         <Button variant="light">Отправить заявку</Button>
                     </div>
@@ -69,7 +43,7 @@ const HeaderContainer = ({className}) => {
                         </PinkLayer>
                     </div>
 
-                    {(roleId === ROLE.ADMIN || isOrganizer) && (
+                    {(isAdmin || isOrganizer) && (
                         <div className="special-buttons">
                             <Button variant="light" width="170px" onClick={toEditEventPage}>
                                 Редактировать

@@ -1,7 +1,5 @@
 import {HighlightedText, Input, PinkLayer, WhiteLayer} from "../../../../components";
-import {NavigateButtons} from "../navigate-buttons/navigate-buttons.jsx";
 import styled from "styled-components";
-import {useState} from "react";
 
 const PriceTabContainer = ({className, setEvent, state}) => {
     const handlePriceChange = ({target}) => {
@@ -19,6 +17,7 @@ const PriceTabContainer = ({className, setEvent, state}) => {
             <div className="layers">
                 <WhiteLayer>
                     <HighlightedText>Общие расходы</HighlightedText>
+                    <p>Если требуются затраты которые необходимо разделить поровну среди участников, укажите их здесь</p>
                     <PinkLayer width="200px" className="to-center">
                         <div className="currency-input">
                             <Input
@@ -35,6 +34,7 @@ const PriceTabContainer = ({className, setEvent, state}) => {
                 </WhiteLayer>
                 <WhiteLayer>
                     <HighlightedText>Индивидуальные расходы</HighlightedText>
+                    <p>Если затраты на каждого чеовека фиксированы, укажите их здесь</p>
                     <PinkLayer width="200px" className="to-center">
                         <div className="currency-input">
                             <Input

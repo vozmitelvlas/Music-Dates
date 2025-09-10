@@ -1,17 +1,18 @@
-import {Button, AuthFormError, Input} from "../../components/index.js";
+import {Button, AuthFormError, Input, LoaderDiv} from "../../components";
 import {registerFormSchema} from "../../schemes/auth-schemes.js";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import styled from "styled-components";
 import {useDispatch} from "react-redux";
-import {registerUserAsync} from "../../store/actions/index.js";
+import {loginUserAsync, registerUserAsync} from "../../store/actions";
 
 const RegisterContainer = ({className}) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [serverError, setServerError] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
     const {register, handleSubmit, formState} = useForm({
         defaultValues: {
             name: "",
@@ -24,11 +25,14 @@ const RegisterContainer = ({className}) => {
     })
 
     const onSubmit = ({repeatPassword, ...formState}) => {
+        setIsLoading(true)
         dispatch(registerUserAsync(formState)).then(userData => {
             sessionStorage.setItem('userData', JSON.stringify(userData))
             navigate("/")
         }).catch((error) => {
             setServerError(error.message)
+        }).finally(() => {
+            setIsLoading(false)
         })
     }
 
@@ -36,9 +40,9 @@ const RegisterContainer = ({className}) => {
     const errorMessage = formError || serverError
 
     return (
-        <div className={className}>
-            <h1>Регистрация</h1>
+        <LoaderDiv isLoading={isLoading} className={className}>
             <form onSubmit={handleSubmit(onSubmit)}>
+                <h1>Регистрация</h1>
                 <div className="text">
                     Если Вы уже зарегистрированы,
                     <div>перейдите на страницу <span className="login" onClick={() => navigate('/login')}>
@@ -77,32 +81,34 @@ const RegisterContainer = ({className}) => {
                         <Input id="repeat-password" type="password" {...register('repeatPassword')} width="100%"/>
                     </div>
                 </div>
-                <AuthFormError $margin="10px 0">{errorMessage}</AuthFormError>
+                <AuthFormError>{errorMessage}</AuthFormError>
                 <Button type="submit">Зарегистрироваться</Button>
             </form>
-        </div>
+        </LoaderDiv>
     )
 }
 
 export const Register = styled(RegisterContainer)`
   display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  padding: 15px;
-  border-radius: 8px;
-  width: 500px;
-  background-color: #fff;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
 
   form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
-    margin-top: 20px;
+    
+    width: 500px;
+    height: 470px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
   }
 
   h1 {
     margin-top: 0;
+    color: #000;
     font-weight: 800;
     font-size: 30px;
   }
@@ -117,7 +123,6 @@ export const Register = styled(RegisterContainer)`
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin: 10px;
   }
 
   .field {

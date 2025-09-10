@@ -1,19 +1,20 @@
 import {DescriptionTab, ParticipantsTab, PriceTab, TimeTab, TabButtons, NavigateButtons} from "./components";
+import {loadEventDataAsync, saveEventDataAsync} from "../../store/actions";
 import {useMatch, useNavigate, useParams} from "react-router-dom";
-import {loadEventDataAsync, saveEventAsync} from "../../store/actions";
+import {selectEvent, selectUserId} from "../../store/selectors";
 import {getValidationErrorsEventData} from "../../schemes";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useRef, useState} from "react";
-import {selectEvent, selectUserId} from "../../store/selectors";
-import {H1} from "../../components";
 import {tabs} from "./constants";
 import styled from "styled-components";
+import {LoaderDiv} from "../../components/index.js";
 
 const NewEventContainer = ({className}) => {
     const {id} = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const contentRef = useRef(null)
+    const [error, setError] = useState(null)
     const [isFull, setIsFull] = useState(false)
     const isCreating = !!useMatch('/new-event')
     const [isLoading, setIsLoading] = useState(true)
@@ -21,8 +22,8 @@ const NewEventContainer = ({className}) => {
     const isEditing = !!useMatch('/platforms/event/:id/edit')
     const [event, setEvent] = useState({
         ...useSelector(selectEvent),
-        organizerId: useSelector(selectUserId)
     })
+    const organizer = useSelector(selectUserId)
 
     useEffect(() => {
         if (isCreating) {
@@ -30,11 +31,14 @@ const NewEventContainer = ({className}) => {
             return
         }
 
-        dispatch(loadEventDataAsync(id)).then(postData => {
-            // setError(postData.error)
-            setEvent(postData)
-            setIsLoading(false)
-        })
+        dispatch(loadEventDataAsync(id))
+            .then(({data, error}) => {
+                setError(error)
+                setEvent(data)
+            })
+            .finally(() => {
+                setIsLoading(false)
+            })
     }, [])
 
     useEffect(() => {
@@ -45,7 +49,7 @@ const NewEventContainer = ({className}) => {
     const continueOrCreate = (offset) => {
         const currentIndex = tabs.indexOf(activeTab)
         if (currentIndex === tabs.length - 1) {
-            dispatch(saveEventAsync(event)).then(({id}) => {
+            dispatch(saveEventDataAsync({...event, organizer})).then(({id}) => {
                 navigate(`/platforms/event/${id}`)
             })
             return
@@ -59,7 +63,6 @@ const NewEventContainer = ({className}) => {
     }
     const toNextTab = () => continueOrCreate(1)
     const toPrevTab = () => continueOrCreate(-1)
-
     const TabContent = (activeTab) => {
         switch (activeTab) {
             case 'description':
@@ -90,9 +93,9 @@ const NewEventContainer = ({className}) => {
     }
 
     return (
-        <div className={className}>
+        <LoaderDiv isLoading={isLoading} className={className}>
             <h1>Новое событие</h1>
-            <TabButtons activeTab={activeTab} setActiveTab={setActiveTab}/>
+            <TabButtons activeTab={activeTab}/>
             {TabContent(activeTab)}
             <NavigateButtons
                 onNext={toNextTab}
@@ -101,7 +104,7 @@ const NewEventContainer = ({className}) => {
                 isFull={isFull}
                 isEditing={isEditing}
             />
-        </div>
+        </LoaderDiv>
     )
 }
 

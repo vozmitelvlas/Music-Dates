@@ -1,4 +1,5 @@
 import {apiClient} from "../utils";
 
-export const removeEventAsync = (id) => () =>
-    apiClient(`/platforms/${id}`, 'DELETE')
+export const loadEventsAsync = () => apiClient('/events')
+export const removeEventAsync = (id) =>
+    apiClient(`/events/${id}`, 'DELETE')

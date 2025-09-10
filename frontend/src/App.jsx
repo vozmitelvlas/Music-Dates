@@ -8,13 +8,9 @@ import styled from "styled-components";
 
 function App() {
     const dispatch = useDispatch()
-
     useEffect(() => {
         const currentUserDataJSON = sessionStorage.getItem('userData')
-
-        if (!currentUserDataJSON) {
-            return
-        }
+        if (!currentUserDataJSON) return
         const currentUserData = JSON.parse(currentUserDataJSON)
 
         dispatch(setUser({
@@ -29,8 +25,8 @@ function App() {
             <Page>
                 <Routes>
                     <Route path="/" element={<Categories/>}></Route>
-                    <Route path="/login" element={<CenteredContent><Login/></CenteredContent>}></Route>
-                    <Route path="/register" element={<CenteredContent><Register/></CenteredContent>}></Route>
+                    <Route path="/login" element={<Login/>}></Route>
+                    <Route path="/register" element={<Register/>}></Route>
                     <Route path="/new-event" element={<NewEvent/>}></Route>
 
                     <Route path="/platforms" element={<Platforms/>}></Route>
@@ -51,6 +47,7 @@ function App() {
 
 const AppColumn = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: space-between;
   min-height: 100%;
@@ -64,13 +61,6 @@ const Page = styled.div`
   flex: 1;
   border-radius: 15px;
   margin: 70px 0 120px;
-`
-
-const CenteredContent = styled.div`
-  display: flex;
-  margin: 0 auto;
-  align-items: center;
-  justify-content: center;
 `
 
 export default App

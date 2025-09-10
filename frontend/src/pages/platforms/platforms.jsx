@@ -1,50 +1,52 @@
 import styled from "styled-components";
 import {useEffect, useState} from "react";
 import {EventCard} from "./components";
-import {apiClient} from "../../utils";
-import {H1} from "../../components";
+import {apiClient, eventPriceFormat} from "../../utils";
+import {useDispatch} from "react-redux";
+import {loadEventsAsync} from "../../api/event.js";
+import {LoaderDiv} from "../../components/index.js";
 
 const PlatformsContainer = ({className}) => {
-    const [platforms, setPlatforms] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
+    const [events, setEvents] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        setIsLoading(true)
-        apiClient('/platforms')
-            .then(platforms => setPlatforms(platforms))
+        loadEventsAsync()
+            .then(({data}) => setEvents(data))
             .finally(() => setIsLoading(false))
     }, [])
 
     return (
-        <div className={className}>
+        <LoaderDiv isLoading={isLoading} className={className}>
             <h1>Музыкальные площадки в Санкт-Петербурге</h1>
             <div className="special-panel"></div>
-
             <div className="list">
-                {platforms.map(({
-                                    id,
-                                    description: {title, location, image},
-                                    time: {eventStartTimes},
-                                    price: {totalExpenses}
-                                }) => (
+                {events.map(({
+                                 id,
+                                 participants: {amountFrom, amountTo},
+                                 description: {title, location, photo},
+                                 time: {eventStartTimes},
+                                 price: {totalExpenses, individualExpenses}
+                             }) => (
                     <EventCard
                         key={id}
                         id={id}
                         title={title}
                         location={location}
                         time={eventStartTimes[0]}
-                        price={totalExpenses}
-                        image={image}
+                        cost={eventPriceFormat(amountFrom, amountTo, individualExpenses, totalExpenses)}
+                        photo={photo}
                     />
                 ))}
             </div>
-        </div>
+        </LoaderDiv>
     )
 }
 
 export const Platforms = styled(PlatformsContainer)`
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   .list {
     display: flex;

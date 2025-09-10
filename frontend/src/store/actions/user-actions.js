@@ -1,5 +1,5 @@
+import {apiClient} from "../../utils";
 import {ACTION_TYPE} from "./action-type.js";
-import {apiClient} from "../../utils/index.js";
 
 export const setUser = (user) => ({
     type: ACTION_TYPE.SET_USER,
@@ -7,25 +7,30 @@ export const setUser = (user) => ({
 })
 
 export const loginUserAsync = ({password, number}) => (dispatch) =>
-    apiClient(`/users?password=${password}&number=${number}`).then(([loadedUser]) => {
-            dispatch(setUser(loadedUser))
-            return loadedUser
-        }
-    )
+    apiClient(`/login`, 'POST', {password, number})
+        .then(({user, error}) => {
+                if (error) {
+                    throw Error(error)
+                }
+                dispatch(setUser(user))
+                return user
+            }
+        )
 
 export const registerUserAsync = (user) => (dispatch) =>
-    apiClient('/users-table', 'POST', user).then((loadedUser) => {
-            dispatch(setUser(loadedUser))
-            return loadedUser
-        }
+    apiClient('/register', 'POST', user)
+        .then(({user, error}) => {
+                if (error) {
+                    throw Error(error)
+                }
+                dispatch(setUser(user))
+                return user
+            }
+        )
+
+export const logout = () => (dispatch) =>
+    apiClient('/logout', 'POST').then(() =>
+        dispatch({
+            type: ACTION_TYPE.LOGOUT
+        })
     )
-
-export const logout = {
-    // apiClient('/logout', 'POST').then(() => {
-    //     dispatch({
-    //         type: ACTION_TYPE.LOGOUT
-    //     })
-    // })
-    type: ACTION_TYPE.LOGOUT
-
-}

@@ -1,45 +1,60 @@
 import {deleteUserAsync, getRolesASync, getUsersAsync} from "../../api";
+import {CLOSE_MODAL, openModal} from "../../store/actions";
 import {checkAccess} from "../../utils/check-access.js";
 import {selectUserRole} from "../../store/selectors";
 import {SearchPanel, UsersTable} from "./components";
+import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
 import {ROLE} from "../../constants";
 import styled from "styled-components";
+import {LoaderDiv} from "../../components/index.js";
 
 const UsersContainer = ({className}) => {
-    const [shouldUpdateUsers, setShouldUpdateUsers] = useState(false)
-    const [errorMessage, setErrorMessage] = useState("")
-    const userRole = useSelector(selectUserRole)
+    const dispatch = useDispatch()
+    const [error, setError] = useState("")
     const [roles, setRoles] = useState([])
     const [users, setUsers] = useState([])
+    const userRole = useSelector(selectUserRole)
+    const [isLoading, setIsLoading] = useState(true)
+    const [shouldUpdateUsers, setShouldUpdateUsers] = useState(false)
 
     useEffect(() => {
-        if (!checkAccess([ROLE.ADMIN], userRole)) return
-
+        setIsLoading(true)
+        if (!checkAccess([ROLE.ADMIN], userRole)) {
+            setIsLoading(false)
+            return
+        }
         Promise.all([
             getUsersAsync(),
             getRolesASync(),
-        ]).then(([usersRes, rolesRes]) => {
-            if (usersRes.error || rolesRes.error) {
-                setErrorMessage(usersRes.error || rolesRes.error)
-                return
-            }
-            setUsers(usersRes)
-            setRoles(rolesRes)
-        })
+        ])
+            .then(([usersRes, rolesRes]) => {
+                if (usersRes.error || rolesRes.error) {
+                    setError(usersRes.error || rolesRes.error)
+                    return
+                }
+                setUsers(usersRes)
+                setRoles(rolesRes)
+            })
+            .finally(() => setIsLoading(false))
     }, [shouldUpdateUsers, userRole])
 
     const onUserRemove = (id) => {
         if (!checkAccess([ROLE.ADMIN], userRole)) return
-
-        deleteUserAsync(id).then(() =>
-            setShouldUpdateUsers(!shouldUpdateUsers)
-        )
+        dispatch(openModal({
+            text: 'Удалить пользователя?',
+            onConfirm: () => {
+                deleteUserAsync(id).then(() => {
+                    setShouldUpdateUsers(!shouldUpdateUsers)
+                })
+                dispatch(CLOSE_MODAL)
+            },
+            onCancel: () => dispatch(CLOSE_MODAL)
+        }))
     }
 
     return (
-        <div className={className}>
+        <LoaderDiv isLoading={isLoading} className={className}>
             <SearchPanel/>
             <table className="table-fill">
                 <thead>
@@ -67,7 +82,7 @@ const UsersContainer = ({className}) => {
                 ))}
                 </tbody>
             </table>
-        </div>
+        </LoaderDiv>
     )
 }
 

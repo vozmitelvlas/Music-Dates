@@ -17,7 +17,6 @@ const DescriptionContainer = ({className, state, contentRef, setEvent}) => {
         const sanitizedContent = sanitizeContent(contentRef.current.innerHTML)
         setEvent(prevState => {
             if (prevState.description.content === sanitizedContent) {
-                console.log("asd")
                 return prevState
             }
             return {

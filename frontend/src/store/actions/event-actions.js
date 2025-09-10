@@ -9,25 +9,19 @@ export const SET_EVENT_DATA = (eventData) => ({
     type: ACTION_TYPE.SET_EVENT_DATA,
     payload: eventData
 })
-
-export const loadPlatformEventAsync = (id) => (dispatch) =>
-    apiClient(`/platforms/${id}`).then(eventData => {
-        dispatch(SET_EVENT_DATA(eventData))
-    })
-export const saveEventAsync = ({id, ...newEventData}) => (dispatch) => {
-    const saveRequest = id ?
-        apiClient(`/platforms/${id}`, 'PATCH', newEventData) :
-        apiClient('/platforms', 'POST', newEventData)
-
-    return saveRequest.then(eventData => {
-        dispatch(SET_EVENT_DATA(eventData))
+export const loadEventDataAsync = (id) => (dispatch) =>
+    apiClient(`/events/${id}`).then(eventData => {
+        if (eventData.data)
+            dispatch(SET_EVENT_DATA(eventData.data))
         return eventData
     })
-}
+export const saveEventDataAsync = ({id, ...newEventData}) => (dispatch) => {
+    const saveRequest = id ?
+        apiClient(`/events/${id}`, 'PATCH', newEventData) :
+        apiClient('/events', 'POST', newEventData)
 
-export const loadEventDataAsync = (id) => (dispatch) =>
-    apiClient(`/platforms/${id}`).then(eventDAta => {
-        if (eventDAta)
-            dispatch(SET_EVENT_DATA(eventDAta))
-        return eventDAta
+    return saveRequest.then(eventData => {
+        dispatch(SET_EVENT_DATA(eventData.data))
+        return eventData.data
     })
+}

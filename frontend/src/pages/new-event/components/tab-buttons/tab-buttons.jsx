@@ -1,31 +1,30 @@
 import styled from "styled-components";
-import {Button} from "../../../../components/index.js";
-import {tabs} from "../../constants/index.js";
+import {Button} from "../../../../components";
 
-const TabButtonsContainer = ({className, activeTab, setActiveTab}) => {
+const TabButtonsContainer = ({className, activeTab}) => {
     return (
         <div className={className}>
             <button
                 className={activeTab === 'description' ? 'active' : ''}
-                onClick={() => setActiveTab('description')}
+                // onClick={() => setActiveTab('description')}
             >
                 Описание
             </button>
             <button
                 className={activeTab === 'participants' ? 'active' : ''}
-                onClick={() => setActiveTab('participants')}
+                // onClick={() => setActiveTab('participants')}
             >
                 Участники
             </button>
             <button
                 className={activeTab === 'time' ? 'active' : ''}
-                onClick={() => setActiveTab('time')}
+                // onClick={() => setActiveTab('time')}
             >
                 Время
             </button>
             <button
                 className={activeTab === 'price' ? 'active' : ''}
-                onClick={() => setActiveTab('price')}
+                // onClick={() => setActiveTab('price')}
             >
                 Цена
             </button>

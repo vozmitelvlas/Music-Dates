@@ -1,16 +1,17 @@
-import {Button, AuthFormError, Input} from "../../components";
-import {yupResolver} from "@hookform/resolvers/yup";
+import {Button, AuthFormError, Input, LoaderDiv} from "../../components";
 import {loginFormSchema} from "../../schemes/auth-schemes.js";
-import {loginUserAsync} from "../../store/actions";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {loginUserAsync, setUser} from "../../store/actions";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {useForm} from "react-hook-form";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import styled from "styled-components";
 
 const LoginContainer = ({className}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [isLoading, setIsLoading] = useState(false)
     const [serverError, setServerError] = useState("")
     const {register, reset, handleSubmit, formState} = useForm({
         defaultValues: {
@@ -21,71 +22,76 @@ const LoginContainer = ({className}) => {
     })
 
     const onSubmit = (formState) => {
-        dispatch(loginUserAsync(formState)).then(userData => {
-            if(userData){
-                sessionStorage.setItem('userData', JSON.stringify(userData))
+        setIsLoading(true)
+        dispatch(loginUserAsync(formState)).then(user => {
+            if(user){
+                sessionStorage.setItem('userData', JSON.stringify(user))
                 navigate("/")
             }
         }).catch((error) => {
             setServerError(error.message)
+        }).finally(() => {
+            setIsLoading(false)
         })
     }
 
     const formError = Object.values(formState.errors)[0]?.message
     const errorMessage = formError || serverError
 
-
     return (
-        <div className={className}>
-            <h1>Авторизация</h1>
+        <LoaderDiv isLoading={isLoading} className={className}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="text">
-                    Войдите в личный кабинет, чтобы
-                    <div>записываться на события и создавать их.</div>
+                <h1>Авторизация</h1>
+                <div>
+                    <div className="text">
+                        Войдите в личный кабинет, чтобы
+                        <div>записываться на события и создавать их.</div>
+                    </div>
+                    <div className="payload">
+                        <Input type="tel" placeholder="Номер телефона"{...register('number')}/>
+                        <Input type="password" placeholder="Пароль"{...register('password')}/>
+                    </div>
+                    <AuthFormError $margin="10px 0">{errorMessage}</AuthFormError>
+                    <div className="help">
+                        <span>Забыли пароль?</span>
+                        <span onClick={() => navigate('/register')}>Регистрация</span>
+                    </div>
+                    <Button type="submit">Войти</Button>
                 </div>
-                <div className="payload">
-                    <Input type="tel" placeholder="Номер телефона"{...register('number')}/>
-                    <Input type="password" placeholder="Пароль"{...register('password')}/>
-                </div>
-                <AuthFormError>{errorMessage}</AuthFormError>
-                <div className="help">
-                    <span>Забыли пароль?</span>
-                    <span onClick={() => navigate('/register')}>Регистрация</span>
-                </div>
-                <Button type="submit">Войти</Button>
             </form>
-        </div>
+        </LoaderDiv>
     )
 }
 
 
 export const Login = styled(LoginContainer)`
   display: flex;
-  flex-direction: column;
-  padding: 15px;
-  border-radius: 8px;
-  height: 400px;
-  width: 500px;
-  background-color: #fff;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
 
   form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
+    width: 500px;
+    height: 400px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
     margin-top: 20px;
   }
 
   h1 {
     margin-top: 0;
-    font-weight: 800;
-    font-size: 30px;
+    color: #000;
   }
 
   .text {
     text-align: center;
     color: #9b9b9b;
     font-size: 18px;
+    margin: 10px 0;
   }
 
   .payload {
@@ -98,6 +104,7 @@ export const Login = styled(LoginContainer)`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 10px 0;
 
     span {
       cursor: pointer;
