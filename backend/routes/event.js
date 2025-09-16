@@ -7,7 +7,8 @@ const mapUser = require("../helpers/mapUser");
 const ROLES = require("../constants/roles");
 const Event = require('../models/Event')
 const express = require('express');
-const router = express.Router({ mergeParams: true })
+const multer = require("multer");
+const router = express.Router({ mergeParams: true });
 
 const isOrganizer = async (req) => {
     const event = await Event.findById({ _id: req.params.id })
@@ -35,14 +36,19 @@ router.delete('/:eventId/members/:memberId', authenticated, hasAccess([ROLES.ADM
     res.send({error: null})
 })
 
-router.post('/', authenticated, async (req, res) => {
-    const newEvent = await addEvent(req.body)
-
+const upload = multer({
+    dest: 'public/uploads/temp',
+    limits: {
+        fileSize: 5 * 1024 * 1024
+    }
+})
+router.post('/', upload.single('photo'), authenticated, async (req, res) => {
+    const newEvent = await addEvent(req)
     res.send({ data: mapEvent(newEvent)})
 })
 
-router.patch('/:id', authenticated, hasAccess([ROLES.ADMIN], isOrganizer), async (req, res) => {
-    const updatedEvent = await editEvent(req.params.id, req.body)
+router.patch('/:id', upload.single('photo'), authenticated, hasAccess([ROLES.ADMIN], isOrganizer), async (req, res) => {
+    const updatedEvent = await editEvent(req.params.id, req)
     res.send({data: mapEvent(updatedEvent)})
 })
 

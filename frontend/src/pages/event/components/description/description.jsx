@@ -6,12 +6,10 @@ import {selectEventDescription} from "../../../../store/selectors/index.js";
 const DescriptionContainer = ({className, content, organizer}) => {
     return (
         <div className={className}>
-            <div className="description">
-                <WhiteLayer>
-                    <HighlightedText>Описание</HighlightedText>
-                    <PinkLayer>{content}</PinkLayer>
-                </WhiteLayer>
-            </div>
+            <WhiteLayer className="description">
+                <HighlightedText>Описание</HighlightedText>
+                <PinkLayer>{content}</PinkLayer>
+            </WhiteLayer>
 
             <div className="people">
                 <WhiteLayer>
@@ -53,21 +51,20 @@ const DescriptionContainer = ({className, content, organizer}) => {
 export const Description = styled(DescriptionContainer)`
   display: flex;
   gap: 20px;
-  
-  .description{
+
+  .description {
     flex: 1;
     min-width: 0;
   }
 
   .people {
     display: flex;
-    flex-direction: column;
-    width: 300px;
-    gap: 20px;
-
     position: sticky;
-    top: 70px;
+    flex-direction: column;
     align-self: flex-start;
+    gap: 20px;
+    top: 70px;
+    width: 300px;
   }
 
   .members {

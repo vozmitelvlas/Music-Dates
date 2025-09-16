@@ -4,28 +4,16 @@ import {Button} from "../../../../components";
 const TabButtonsContainer = ({className, activeTab}) => {
     return (
         <div className={className}>
-            <button
-                className={activeTab === 'description' ? 'active' : ''}
-                // onClick={() => setActiveTab('description')}
-            >
+            <button className={activeTab === 'description' ? 'active' : ''}>
                 Описание
             </button>
-            <button
-                className={activeTab === 'participants' ? 'active' : ''}
-                // onClick={() => setActiveTab('participants')}
-            >
+            <button className={activeTab === 'participants' ? 'active' : ''}>
                 Участники
             </button>
-            <button
-                className={activeTab === 'time' ? 'active' : ''}
-                // onClick={() => setActiveTab('time')}
-            >
+            <button className={activeTab === 'time' ? 'active' : ''}>
                 Время
             </button>
-            <button
-                className={activeTab === 'price' ? 'active' : ''}
-                // onClick={() => setActiveTab('price')}
-            >
+            <button className={activeTab === 'price' ? 'active' : ''}>
                 Цена
             </button>
         </div>
@@ -40,8 +28,7 @@ export const TabButtons = styled(TabButtonsContainer)`
   overflow: hidden;
   width: 400px;
   margin: 0 auto;
-
-
+  
   button {
     width: 100px;
     padding: 12px 16px;

@@ -93,6 +93,7 @@ export const Register = styled(RegisterContainer)`
   justify-content: center;
   align-items: center;
   min-height: 100%;
+  width: 100%;
 
   form {
     display: flex;

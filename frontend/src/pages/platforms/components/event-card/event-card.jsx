@@ -1,3 +1,4 @@
+import {getImageUrl} from "../../../../utils/get-image-url.js";
 import {Button, Img} from "../../../../components";
 import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
@@ -5,11 +6,12 @@ import styled from "styled-components";
 // В будующем вынести в ./компоненты и потом использовать для любых типов ивентов
 const EventCardContainer = ({className, title, location, time, cost, id, photo}) => {
     const navigate = useNavigate()
+    const imageUrl = getImageUrl(photo)
     const toEvent = () => navigate(`event/${id}`)
     return (
         <div className={className}>
             <div className="avatar-wrapper">
-                <Img src={photo || null} onClick={toEvent} className="avatar"/>
+                <Img src={imageUrl || null} onClick={toEvent} className="avatar"/>
             </div>
             <div className="title" onClick={toEvent}>{title}</div>
             <div className="address">{location}</div>
@@ -25,7 +27,7 @@ export const EventCard = styled(EventCardContainer)`
   flex-direction: column;
   justify-content: space-between;
   padding: 10px;
-  width: 315px;
+  width: 330px;
   height: 450px;
   margin: 10px;
   border: 2px solid var(--simple-border);

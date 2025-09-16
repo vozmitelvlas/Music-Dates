@@ -38,7 +38,7 @@ async function getUsers() {
 function getRoles() {
     return [
         {id: ROLES.ADMIN, name: 'Admin'},
-        {id: ROLES.GUEST, name: 'Guest'},
+        {id: ROLES.USER, name: 'User'},
     ]
 }
 

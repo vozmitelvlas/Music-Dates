@@ -18,17 +18,15 @@ const LoaderSpinner = styled.div`
   animation: ${spin} 1s infinite linear;
 `
 
-const ContentWrapper = styled.div``
-
 const LoaderDivContainer = ({ isLoading, children, className }) => {
     return (
         <>
             {isLoading ? (
                 <LoaderSpinner />
             ) : (
-                <ContentWrapper className={className}>
+                <div className={className}>
                     {children}
-                </ContentWrapper>
+                </div>
             )}
         </>
     )

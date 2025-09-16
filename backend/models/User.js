@@ -40,7 +40,7 @@ const UserSchema = new mongoose.Schema({
     role: {
         type: Number,
         required: true,
-        default: roles.GUEST,
+        default: roles.USER,
     },
 }, {timestamps: true})
 

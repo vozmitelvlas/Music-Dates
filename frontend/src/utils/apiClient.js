@@ -1,36 +1,44 @@
-const API_BASE_URL = 'http://localhost:3000/api'
+import {API_BASE_URL} from "../config";
 
+const API_BASE_URL_API = API_BASE_URL + '/api'
 export const apiClient = async (endpoint, method = 'GET', body = null, customHeaders = {}) => {
     const defaultOptions = {
         method: method.toUpperCase(),
         credentials: 'include',
         headers: {},
     }
-    if (body !== null) {
+
+    let finalBody = body
+
+    if (body instanceof FormData) {
+        finalBody = body
+    } else if (body !== null) {
         defaultOptions.headers['Content-Type'] = 'application/json'
-        defaultOptions.body = JSON.stringify(body)
+        finalBody = JSON.stringify(body)
     }
 
     defaultOptions.headers = {...defaultOptions.headers, ...customHeaders}
 
-    try {
-        const response = await fetch(`${API_BASE_URL}${endpoint}`, defaultOptions)
+    if (body instanceof FormData) {
+        delete defaultOptions.headers['Content-Type']
+    }
 
-        // if (response.status === 401) {
-        //     window.location.href = '/login'
-        // }
+    try {
+        const response = await fetch(`${API_BASE_URL_API}${endpoint}`, {
+            ...defaultOptions,
+            body: finalBody
+        })
 
         if (!response.ok) {
             throw await response.json().catch(() => ({}))
         }
 
-        // if (response.status === 204) {
-        //     return null
-        // }
+        if (response.status === 204) {
+            return null
+        }
 
         return await response.json()
     } catch (error) {
-        console.error('Произошла ошибка при выполнении запроса:', error.message)
         throw error
     }
 }

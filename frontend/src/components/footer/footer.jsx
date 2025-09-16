@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import styled from "styled-components";
 import {Img} from "../img/img.jsx";
-import {Link} from "react-router-dom";
+
 
 const FooterContainer = ({className}) => {
     const [city, setCity] = useState("")
@@ -40,21 +40,17 @@ export const Footer = styled(FooterContainer)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
-  bottom: 0;
-  left: 0;
   width: 100%;
   height: 100px;
   padding: 20px 40px;
   background-color: #fff;
-  box-shadow: 0 2px 17px #000;
+  box-shadow: 0px 2px 17px #000;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px;
   
   .email-header{
     display: flex;
     align-items: center;
-
     gap: 10px;
   }
 

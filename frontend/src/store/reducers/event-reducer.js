@@ -1,6 +1,6 @@
-import {ACTION_TYPE} from "../actions/index.js";
+import {ACTION_TYPE} from "../actions";
 
-const initialEventState = {
+export const initialEventState = {
     id: "",
     organizer: "",
     description: {
@@ -8,7 +8,7 @@ const initialEventState = {
         content: "",
         skill: "",
         location: "",
-        image: "/lessons.jpg",
+        photo: "",
     },
     participants: {
         amountFrom: "",

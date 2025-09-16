@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const ImgContainer = ({src, className, inactive, icon, ...props}) => {
     return (
-        <img src={src} {...props} className={className}/>
+        <img src={src} {...props} className={className} alt=""/>
     )
 }
 

@@ -1,4 +1,4 @@
-import {apiClient} from "../../utils/index.js";
+import {apiClient, flattenFormData} from "../../utils";
 import {ACTION_TYPE} from "./action-type.js";
 
 
@@ -15,13 +15,17 @@ export const loadEventDataAsync = (id) => (dispatch) =>
             dispatch(SET_EVENT_DATA(eventData.data))
         return eventData
     })
-export const saveEventDataAsync = ({id, ...newEventData}) => (dispatch) => {
-    const saveRequest = id ?
-        apiClient(`/events/${id}`, 'PATCH', newEventData) :
-        apiClient('/events', 'POST', newEventData)
 
-    return saveRequest.then(eventData => {
-        dispatch(SET_EVENT_DATA(eventData.data))
+export const saveEventDataAsync = ({id, ...newEventData}) => (dispatch) => {
+    const endpoint = id ? `/events/${id}` : '/events'
+    const method = id ? 'PATCH' : 'POST'
+
+    const formData = flattenFormData(newEventData)
+
+    return apiClient(endpoint, method, formData).then(eventData => {
+        if (eventData.data)
+            dispatch(SET_EVENT_DATA(eventData.data))
+
         return eventData.data
     })
 }

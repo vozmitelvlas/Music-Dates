@@ -69,6 +69,7 @@ export const Login = styled(LoginContainer)`
   justify-content: center;
   align-items: center;
   min-height: 100%;
+  width: 100%;
 
   form {
     display: flex;

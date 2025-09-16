@@ -1,11 +1,13 @@
 import {formatDuration, participantsAmountFormat, participantsSexFormat} from "../../../../utils";
 import {Button, HighlightedText, Img, PinkLayer, WhiteLayer} from "../../../../components";
+import {getImageUrl} from "../../../../utils/get-image-url.js";
 import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
 
 const HeaderContainer = ({className, description, cost, time, participants, onEventRemove, isOrganizer, isAdmin}) => {
     const navigate = useNavigate()
     const toEditEventPage = () => navigate(`edit`)
+    const imageUrl = getImageUrl(description.photo)
 
     return (
         <div className={className}>
@@ -20,7 +22,7 @@ const HeaderContainer = ({className, description, cost, time, participants, onEv
                     </div>
 
                     <div className="avatar-wrapper">
-                        <Img src={description.photo || null} className="avatar" inactive/>
+                        <Img src={imageUrl} className="avatar"/>
                     </div>
                 </WhiteLayer>
 
@@ -30,9 +32,9 @@ const HeaderContainer = ({className, description, cost, time, participants, onEv
                         <Button variant="light">Отправить заявку</Button>
                     </div>
 
-                    <div>
+                    <div className="about-event">
                         <HighlightedText>О событии</HighlightedText>
-                        <PinkLayer>
+                        <PinkLayer className="about-event-text">
                             {participants.sex !== 'any' &&
                                 <div><b>Ограничения: </b>{participantsSexFormat(participants)}</div>}
                             <div><b>Кол-во участников: </b>{participantsAmountFormat(participants)}</div>
@@ -63,23 +65,29 @@ export const EventHeader = styled(HeaderContainer)`
   .header {
     display: flex;
     justify-content: space-between;
-    height: 390px;
+    height: 450px;
     margin: 10px 0 20px;
   }
 
-  .main-photo {
-    border-radius: 8px;
-    width: 576px;
-    height: 100%;
+  .about-event {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .about-event-text {
+    font-size: 18px;
+
+    div {
+      margin: 5px 0;
+    }
   }
 
   .avatar-wrapper {
-    width: 576px;
+    width: 100%;
     height: 100%;
     border-radius: 8px;
     overflow: hidden;
-    flex-shrink: 0;
-    background: #f5f5f5;
+    background: #c53c3c;
   }
 
   .avatar {
@@ -93,6 +101,7 @@ export const EventHeader = styled(HeaderContainer)`
   .main-panel {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 10px;
     width: 600px;
   }
@@ -103,7 +112,7 @@ export const EventHeader = styled(HeaderContainer)`
 
   .photos {
     display: flex;
-    width: 720px;
+    width: 780px;
     gap: 10px;
   }
 

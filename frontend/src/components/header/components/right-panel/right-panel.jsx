@@ -1,11 +1,11 @@
-import {selectUserName, selectUserPhoto, selectUserRole} from "../../../../store/selectors";
-import {logout, RESET_EVENT_DATA} from "../../../../store/actions";
+import {selectUserLocation, selectUserName, selectUserPhoto, selectUserRole} from "../../../../store/selectors";
 import {AvatarCard} from "../../../avatar-card/avatar-card.jsx";
 import {checkAccess} from "../../../../utils/check-access.js";
 import {PinkLayer} from "../../../pink-layer/pink-layer.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
 import {Button} from "../../../button/button.jsx";
+import {logout} from "../../../../store/actions";
 import {ROLE} from "../../../../constants";
 import {Img} from "../../../img/img.jsx";
 import {Popup} from "./components";
@@ -14,16 +14,15 @@ import styled from "styled-components";
 const RightPanelContainer = ({className}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const location = useSelector(selectUserLocation)
     const userName = useSelector(selectUserName)
-    const userPhoto = useSelector(selectUserPhoto)
     const userRole = useSelector(selectUserRole)
+    const userPhoto = useSelector(selectUserPhoto)
 
     const onLogout = () => {
         dispatch(logout())
         sessionStorage.removeItem('userData')
     }
-
-    const clearEventData = () => dispatch(RESET_EVENT_DATA)
     const toLoginPage = () => navigate('login')
     const toRegisterPage = () => navigate('register')
 
@@ -62,14 +61,14 @@ const RightPanelContainer = ({className}) => {
             )}
             <div>
                 <Img src="/location.svg" icon/>
-                <div className="location">Местоположение</div>
+                <div className="location">{location ? location : "Местоположение"}</div>
             </div>
             <Popup position="right" trigger={<Img src="/menu.svg"/>}>
                 <ul className="dropdown-list">
                     <li><Link to="profile">Профиль</Link></li>
                     <li><Link to="/"> Категории</Link></li>
                     {userName && (
-                        <li><Link to="/new-event" onClick={clearEventData}>Новое событие</Link></li>
+                        <li><Link to="/new-event">Новое событие</Link></li>
                     )}
                     {isAdmin && (
                         <li><Link to="/users">Пользователи</Link></li>

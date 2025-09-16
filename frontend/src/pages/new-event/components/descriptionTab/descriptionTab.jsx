@@ -2,6 +2,7 @@ import {HighlightedText, Input, PinkLayer, WhiteLayer} from "../../../../compone
 import {LocationSelect} from "./components";
 import {sanitizeContent} from "./utils";
 import styled from "styled-components";
+import {useState} from "react";
 
 const DescriptionContainer = ({className, state, contentRef, setEvent}) => {
     const onFormStateChange = ({target}) => {
@@ -27,6 +28,21 @@ const DescriptionContainer = ({className, state, contentRef, setEvent}) => {
                 }
             }
         })
+    }
+
+    const [photoPreview, setPhotoPreview] = useState('')
+    const handleFileChange = (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+
+        setEvent(prevState => ({
+            ...prevState,
+            photo: file,
+        }))
+        const objectUrl = URL.createObjectURL(file)
+        setPhotoPreview(objectUrl)
+
+        return () => URL.revokeObjectURL(objectUrl)
     }
 
     return (
@@ -77,8 +93,19 @@ const DescriptionContainer = ({className, state, contentRef, setEvent}) => {
             <WhiteLayer>
                 <HighlightedText>Фото</HighlightedText>
                 <p>События с фото выглядят более привлекательными</p>
-                <PinkLayer width="150px" height="150px" className='photo'>
-                    +
+                <PinkLayer width="150px" height="150px"
+                           $preview={photoPreview}
+                           onClick={() => document.getElementById('photo-upload').click()}
+                           className='photo'
+                >
+                    {!photoPreview && '+'}
+                    <input
+                        id="photo-upload"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        style={{display: 'none'}}
+                    />
                 </PinkLayer>
             </WhiteLayer>
         </div>
@@ -87,9 +114,9 @@ const DescriptionContainer = ({className, state, contentRef, setEvent}) => {
 
 export const DescriptionTab = styled(DescriptionContainer)`
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 20px;
-  flex: 1;
 
   .title, .skill {
     display: flex;
@@ -102,6 +129,12 @@ export const DescriptionTab = styled(DescriptionContainer)`
     align-items: center;
     justify-content: center;
     font-size: 64px;
+
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    background-image: ${props => props.$preview ? `url(${props.$preview})` : 'none'};
+    // background-image: ${(photoPreview) => `url(${photoPreview})`};
+    background-size: cover;
     cursor: pointer;
   }
 `

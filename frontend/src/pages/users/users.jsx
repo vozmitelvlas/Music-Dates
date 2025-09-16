@@ -1,5 +1,6 @@
 import {deleteUserAsync, getRolesASync, getUsersAsync} from "../../api";
 import {CLOSE_MODAL, openModal} from "../../store/actions";
+import {LoaderDiv, PrivateContent} from "../../components";
 import {checkAccess} from "../../utils/check-access.js";
 import {selectUserRole} from "../../store/selectors";
 import {SearchPanel, UsersTable} from "./components";
@@ -7,7 +8,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {ROLE} from "../../constants";
 import styled from "styled-components";
-import {LoaderDiv} from "../../components/index.js";
 
 const UsersContainer = ({className}) => {
     const dispatch = useDispatch()
@@ -54,35 +54,37 @@ const UsersContainer = ({className}) => {
     }
 
     return (
-        <LoaderDiv isLoading={isLoading} className={className}>
-            <SearchPanel/>
-            <table className="table-fill">
-                <thead>
-                <tr>
-                    <th><strong>Доступ</strong></th>
-                    <th><strong>Имя</strong></th>
-                    <th><strong>Номер</strong></th>
-                    <th><strong>Дата регистрации</strong></th>
-                    <th><strong>Роль</strong></th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                {users.map(({id, name, number, registeredAt, roleId}) => (
-                    <UsersTable
-                        key={id}
-                        id={id}
-                        number={number}
-                        name={name}
-                        registeredAt={registeredAt}
-                        roleId={roleId}
-                        roles={roles}
-                        onUserRemove={() => onUserRemove(id)}
-                    />
-                ))}
-                </tbody>
-            </table>
-        </LoaderDiv>
+        <PrivateContent serverError={error} access={[ROLE.ADMIN]}>
+            <LoaderDiv isLoading={isLoading} className={className}>
+                <SearchPanel/>
+                <table className="table-fill">
+                    <thead>
+                    <tr>
+                        <th><strong>Доступ</strong></th>
+                        <th><strong>Имя</strong></th>
+                        <th><strong>Номер</strong></th>
+                        <th><strong>Дата регистрации</strong></th>
+                        <th><strong>Роль</strong></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {users.map(({id, name, number, registeredAt, roleId}) => (
+                        <UsersTable
+                            key={id}
+                            id={id}
+                            number={number}
+                            name={name}
+                            registeredAt={registeredAt}
+                            roleId={roleId}
+                            roles={roles}
+                            onUserRemove={() => onUserRemove(id)}
+                        />
+                    ))}
+                    </tbody>
+                </table>
+            </LoaderDiv>
+        </PrivateContent>
     )
 }
 

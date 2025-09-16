@@ -1,13 +1,16 @@
 import {DescriptionTab, ParticipantsTab, PriceTab, TimeTab, TabButtons, NavigateButtons} from "./components";
-import {loadEventDataAsync, saveEventDataAsync} from "../../store/actions";
+import {loadEventDataAsync, RESET_EVENT_DATA, saveEventDataAsync} from "../../store/actions";
 import {useMatch, useNavigate, useParams} from "react-router-dom";
 import {selectEvent, selectUserId} from "../../store/selectors";
 import {getValidationErrorsEventData} from "../../schemes";
+import {LoaderDiv, PrivateContent} from "../../components";
+import {initialEventState} from "../../store/reducers";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useRef, useState} from "react";
+import {ROLE} from "../../constants";
 import {tabs} from "./constants";
 import styled from "styled-components";
-import {LoaderDiv} from "../../components/index.js";
+import {apiClient} from "../../utils/index.js";
 
 const NewEventContainer = ({className}) => {
     const {id} = useParams()
@@ -15,48 +18,46 @@ const NewEventContainer = ({className}) => {
     const dispatch = useDispatch()
     const contentRef = useRef(null)
     const [error, setError] = useState(null)
+    const organizer = useSelector(selectUserId)
     const [isFull, setIsFull] = useState(false)
     const isCreating = !!useMatch('/new-event')
     const [isLoading, setIsLoading] = useState(true)
     const [activeTab, setActiveTab] = useState('description')
     const isEditing = !!useMatch('/platforms/event/:id/edit')
-    const [event, setEvent] = useState({
-        ...useSelector(selectEvent),
-    })
-    const organizer = useSelector(selectUserId)
+    const [event, setEvent] = useState(initialEventState)
+
 
     useEffect(() => {
         if (isCreating) {
+            dispatch(RESET_EVENT_DATA)
+            setEvent(initialEventState)
             setIsLoading(false)
-            return
+        } else {
+            dispatch(loadEventDataAsync(id))
+                .then(({data, error}) => {
+                    setError(error)
+                    setEvent(data)
+                })
+                .finally(() => {
+                    setIsLoading(false)
+                })
         }
-
-        dispatch(loadEventDataAsync(id))
-            .then(({data, error}) => {
-                setError(error)
-                setEvent(data)
-            })
-            .finally(() => {
-                setIsLoading(false)
-            })
-    }, [])
+    }, [isCreating])
 
     useEffect(() => {
         const errors = getValidationErrorsEventData(event[activeTab], activeTab)
         errors.length ? setIsFull(false) : setIsFull(true)
     }, [event, activeTab])
 
-    const continueOrCreate = (offset) => {
+
+    const continueOrCreate = async (offset) => {
         const currentIndex = tabs.indexOf(activeTab)
-        if (currentIndex === tabs.length - 1) {
+        const newIndex = currentIndex + offset
+        if (newIndex === tabs.length) {
             dispatch(saveEventDataAsync({...event, organizer})).then(({id}) => {
                 navigate(`/platforms/event/${id}`)
             })
-            return
-        }
-
-        const newIndex = currentIndex + offset
-        if (newIndex >= 0 && newIndex < tabs.length) {
+        } else if (newIndex >= 0 && newIndex < tabs.length) {
             setActiveTab(tabs[newIndex])
             window.scrollTo(0, 0)
         }
@@ -93,18 +94,22 @@ const NewEventContainer = ({className}) => {
     }
 
     return (
-        <LoaderDiv isLoading={isLoading} className={className}>
-            <h1>Новое событие</h1>
-            <TabButtons activeTab={activeTab}/>
-            {TabContent(activeTab)}
-            <NavigateButtons
-                onNext={toNextTab}
-                activeTab={activeTab}
-                onPrev={toPrevTab}
-                isFull={isFull}
-                isEditing={isEditing}
-            />
-        </LoaderDiv>
+        <PrivateContent serverError={error} access={[ROLE.ADMIN, ROLE.USER]}>
+            <LoaderDiv isLoading={isLoading} className={className}>
+                <h1>Новое событие</h1>
+                <TabButtons activeTab={activeTab}/>
+
+                {TabContent(activeTab)}
+
+                <NavigateButtons
+                    onNext={toNextTab}
+                    activeTab={activeTab}
+                    onPrev={toPrevTab}
+                    isFull={isFull}
+                    isEditing={isEditing}
+                />
+            </LoaderDiv>
+        </PrivateContent>
     )
 }
 

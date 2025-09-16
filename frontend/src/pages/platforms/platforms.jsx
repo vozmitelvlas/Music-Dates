@@ -1,10 +1,9 @@
-import styled from "styled-components";
+import {eventPriceFormat} from "../../utils";
+import {LoaderDiv} from "../../components";
 import {useEffect, useState} from "react";
+import styled from "styled-components";
 import {EventCard} from "./components";
-import {apiClient, eventPriceFormat} from "../../utils";
-import {useDispatch} from "react-redux";
 import {loadEventsAsync} from "../../api/event.js";
-import {LoaderDiv} from "../../components/index.js";
 
 const PlatformsContainer = ({className}) => {
     const [events, setEvents] = useState([])
@@ -46,7 +45,7 @@ const PlatformsContainer = ({className}) => {
 export const Platforms = styled(PlatformsContainer)`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 1500px;
 
   .list {
     display: flex;

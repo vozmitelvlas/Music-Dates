@@ -1,8 +1,16 @@
-const Event = require('../models/Event')
-const User = require("../models/User");
+const Event = require('../models/Event');
+const definePhotoPath = require("../utils/define-photo-path")
+const deletePhoto = require("../utils/delete-photo-by-event-id")
 
-async function addEvent(event) {
-    const createdEvent = await Event.create(event)
+async function addEvent(req) {
+    const photoPath = await definePhotoPath(req)
+    const createdEvent = await Event.create({
+        ...req.body,
+        description: {
+            ...req.body.description,
+            photo: photoPath,
+        }
+    })
 
     return createdEvent.populate([
         {
@@ -29,8 +37,16 @@ async function getEvent(id) {
     ])
 }
 
-async function editEvent(id, event) {
-    return Event.findByIdAndUpdate(id, event, {returnDocument: 'after'})
+async function editEvent(id, req) {
+    const photoPath = await definePhotoPath(req)
+
+    return Event.findByIdAndUpdate(id, {
+        ...req.body,
+        description: {
+            ...req.body.description,
+            photo: photoPath,
+        }
+    }, {returnDocument: 'after'})
         .populate([
             {
                 path: 'participants.members',
@@ -44,7 +60,12 @@ async function editEvent(id, event) {
 }
 
 async function deleteEvent(id) {
-    return Event.deleteOne({_id: id})
+    try {
+        await deletePhoto(id)
+        return Event.deleteOne({_id: id})
+    } catch (err) {
+        throw err
+    }
 }
 
 async function getEvents() {

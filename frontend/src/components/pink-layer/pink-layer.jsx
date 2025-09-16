@@ -7,7 +7,7 @@ export const PinkLayer = styled.div`
   background-color: var(--light-accent-color);
   border-radius: 8px;
   margin: 10px 20px;
-  padding: 10px;
+  padding: 15px;
   font-size: 16px;
   line-height: 1.5;
   

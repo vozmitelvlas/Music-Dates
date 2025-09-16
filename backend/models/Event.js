@@ -28,7 +28,6 @@ const EventSchema = new mongoose.Schema({
             },
             photo: {
                 type: String,
-                default: '/event-example.jpg',
                 validate: {
                     validator: (value) => {
                         return value === '' || validator.isURL

@@ -1,8 +1,9 @@
 import {Categories, Login, Platforms, Register, Event, NewEvent, Users} from "./pages";
-import {Footer, Header, Modal} from "./components";
+import {Error, Footer, Header, Modal} from "./components";
 import {Routes, Route} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {setUser} from "./store/actions";
+import {ERROR} from "./constants";
 import {useEffect} from "react";
 import styled from "styled-components";
 
@@ -36,7 +37,7 @@ function App() {
                     <Route path="/lessons" element={<div>уроки</div>}></Route>
                     <Route path="/parties" element={<div>квартирники</div>}></Route>
                     <Route path="/users" element={<Users/>}></Route>
-                    <Route path="*" element={<div>error page</div>}></Route>
+                    <Route path="*" element={<Error error={ERROR.PAGE_NOT_EXIST}/>}></Route>
                 </Routes>
             </Page>
             <Footer/>
@@ -47,20 +48,17 @@ function App() {
 
 const AppColumn = styled.div`
   display: flex;
-  flex: 1;
+  align-items: center;
   flex-direction: column;
-  justify-content: space-between;
   min-height: 100%;
-  width: 1340px;
   margin: 0 auto;
 `
 
 const Page = styled.div`
   display: flex;
-  justify-content: center;
+  width: 1400px;
+  margin: 70px 0 20px;
   flex: 1;
-  border-radius: 15px;
-  margin: 70px 0 120px;
 `
 
 export default App

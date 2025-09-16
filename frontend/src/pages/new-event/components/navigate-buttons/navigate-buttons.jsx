@@ -13,7 +13,7 @@ const NavigateButtonsContainer = ({className, activeTab, onNext, onPrev, isFull,
                 variant="light"
                 width="200px"
                 onClick={onPrev}
-                disabled={!isFull}
+                disabled={isFirst}
             >
                 Назад
             </Button>
