@@ -13,7 +13,7 @@ app.use(express.static(path.resolve('..', 'frontend', 'dist')))
 app.use(cors({
     origin: 'https://music-dates-1.onrender.com',
     credentials: true,
-}));
+}))
 
 app.use(cookieParser())
 app.use(express.json())
