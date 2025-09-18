@@ -34,6 +34,6 @@ app.all('/{*any}', (req, res, next) => {
 
 mongoose.connect(process.env.DB_CONNECTION_STRING).then(async () => {
     app.listen(port, async () => {
-        console.log(`server started on port ${port}`)
+        console.log(`server started on port  ${port}`)
     })
 })
